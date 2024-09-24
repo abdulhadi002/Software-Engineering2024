@@ -1,3 +1,4 @@
+![Internet of things](https://media.licdn.com/dms/image/C5112AQGiHCoRUbQbTg/article-cover_image-shrink_600_2000/0/1520061450672?e=2147483647&v=beta&t=H-qJ6m8bJX2aYpuNaMywfSRi5m9OZan3GcWheh0MSlk)
 # Software-Engineering2024
 Abdulhadi Mazin Abdo, Granit Salihu, Ibaida Zaher Ahmed Taha, Kim Salihu
 
