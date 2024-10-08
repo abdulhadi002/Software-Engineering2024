@@ -4,3 +4,4 @@ type RegistreringProps = {
 
 export default function Registrering(props: RegistreringProps) {
 }
+//github test
