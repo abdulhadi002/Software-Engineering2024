@@ -1,0 +1,53 @@
+/* Registrering.css */
+
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+    grid-template-rows: auto 1fr auto;
+    height: 100vh; /* Full høyde på vinduet */
+  }
+  
+  .header {
+    grid-area: header;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  
+  .main {
+    grid-area: main;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    padding: 2rem;
+    min-height: 0; /* Sikrer at main-seksjonen ikke tar unødvendig plass */
+  }
+  
+  form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Sikrer at skjemaet har en passende bredde */
+    text-align: left;
+  }
+  
+  .footer {
+    grid-area: footer;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    text-align: center;
+  }
+  
