@@ -7,6 +7,7 @@ Denne IoT-administrasjonsplattformen er en webapplikasjon som lar brukere legge 
 
 # Installasjons instrukser
 1. Innstaller nodejs fra https://nodejs.org/en
-2. pnpm install for å installere dependencies
-3. pnpm run de
-4. åpne localhost linken som dukker opp i terminal utskriften
+2. pnpm install (for å installere dependencies)
+3. npm install react-router-dom (for å installere navigasjon)
+4. pnpm run dev
+5. åpne localhost linken som dukker opp i terminal utskriften
