@@ -1,5 +1,6 @@
 import * as React from "react";
-import "../styles/Registrering.css";  // Import av CSS
+import "../styles/Registrering.css";
+  // Import av CSS
 
 type RegistreringProps = {
   //onRegister: (username: string, password: string) => void;
