@@ -1,37 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { DeviceData } from './types';
 
 type EnhetsdetaljerProps = {
-  deviceId: string;
+  deviceData: DeviceData;
   onToggleStatus: () => void;
 };
 
-type DeviceData = {
-  device_name: string;
-  device_status: boolean;
-  device_version: string;
-  device_description: string;
-  device_image: string;
-};
-
-export default function Enhetsdetaljer({ deviceId, onToggleStatus }: EnhetsdetaljerProps) {
-  const [deviceData, setDeviceData] = useState<DeviceData | null>(null);
-
-  useEffect(() => {
-    fetch('/path/to/device-data.json')
-      .then((response) => response.json())
-      .then((data) => {
-        const foundDevice = data.device_data.find((device: DeviceData) => device.device_name === deviceId);
-        setDeviceData(foundDevice);
-      })
-      .catch((error) => {
-        console.error('Error fetching device data:', error);
-      });
-  }, [deviceId]);
-
-  if (!deviceData) {
-    return <p>Loading device details...</p>;
-  }
-
+export default function Enhetsdetaljer({ deviceData, onToggleStatus }: EnhetsdetaljerProps) {
   return (
     <main className="device-details-container" aria-labelledby="device-details-title">
       <header className="device-header">

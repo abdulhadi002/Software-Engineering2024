@@ -1,4 +1,3 @@
-/* General Container */
 .device-details-container {
     background-color: #e5e5e5;
     padding: 20px;
@@ -8,7 +7,7 @@
     font-family: Arial, sans-serif;
   }
   
-  /* Header */
+ 
   .device-header {
     background-color: #454545;
     color: white;
@@ -22,7 +21,7 @@
     font-size: 24px;
   }
   
-  /* Device Details Section */
+  
   .device-details {
     background-color: #3bb3be;
     padding: 20px;
@@ -37,7 +36,7 @@
     text-align: center;
   }
   
-  /* Device Info Sections */
+ 
   .device-details section {
     margin-bottom: 15px;
   }
@@ -57,7 +56,7 @@
     text-align: left;
   }
   
-  /* Device Image */
+ 
   figure {
     text-align: right;
     margin-top: 15px;
@@ -75,20 +74,3 @@
     color: #333;
     margin-top: 10px;
   }
-  
-  /* Footer */
-  footer button {
-    background-color: #4a4a4a;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    margin-top: 20px;
-  }
-  
-  footer button:hover {
-    background-color: #333;
-  }
-  
