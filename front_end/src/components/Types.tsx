@@ -5,3 +5,8 @@ export type DeviceData = {
     device_description: string;
     device_image: string;
   };  
+
+  export type LoginInformation = {
+    userName: string;
+    password: string; 
+  };

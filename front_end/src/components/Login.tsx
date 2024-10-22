@@ -1,13 +1,29 @@
 import React, { useState } from 'react';
 import '../styles/Login.css';
+import { LoginInformation } from '../components/types';
 
-const Login = ({ checkUserCredentials }) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
+interface LoginProps {
+    checkUserCredentials: (credentials: LoginInformation) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ checkUserCredentials }) => {
+    const [credentials, setCredentials] = useState<LoginInformation>({
+        userName: '',
+        password: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setCredentials((prevCredentials) => ({
+            ...prevCredentials,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        checkUserCredentials(username, password);
+        checkUserCredentials(credentials);
     };
 
     return (
@@ -24,13 +40,13 @@ const Login = ({ checkUserCredentials }) => {
                 <h2>Login / Registrering</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="input-container">
-                        <label htmlFor="username">Brukernavn</label>
+                        <label htmlFor="userName">Brukernavn</label>
                         <input
                             type="text"
-                            id="username"
-                            name="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            id="userName"
+                            name="userName"
+                            value={credentials.userName}
+                            onChange={handleChange}
                             required
                         />
                     </div>
@@ -41,8 +57,8 @@ const Login = ({ checkUserCredentials }) => {
                             type="password"
                             id="password"
                             name="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={credentials.password}
+                            onChange={handleChange}
                             required
                         />
                     </div>
