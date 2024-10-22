@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "scripts": {
     "frontend": "pnpm --filter front_end run dev",
-    "backend": "pnpm --filter back_end run dev", 
+    "backend": "pnpm --filter back_end run dev",
     "dev": "concurrently \"pnpm run frontend\" \"pnpm run backend\""
   },
   "devDependencies": {
     "concurrently": "^9.0.1"
+  },
+  "dependencies": {
+    "hono": "^4.6.6"
   }
 }
