@@ -1,6 +1,6 @@
 import React from 'react';
 import '../styles/Login.css';
-import { LoginInformation } from './types';
+import { LoginInformation } from './Types';
 
 interface LoginProps {
   credentials: LoginInformation;

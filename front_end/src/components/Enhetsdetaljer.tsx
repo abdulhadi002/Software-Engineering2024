@@ -1,4 +1,4 @@
-import { DeviceData } from './types';
+import { DeviceData } from './Types';
 
 type EnhetsdetaljerProps = {
   deviceData: DeviceData;
