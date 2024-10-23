@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import '../styles/Login.css';
 import { LoginInformation } from '../components/types';
 
-
 interface LoginProps {
-    checkUserCredentials: (credentials: LoginInformation) => void;
+    checkUserCredentials: (credentials: LoginInformation) => Promise<boolean>;
+    registerUser: (credentials: LoginInformation) => Promise<void>;
 }
 
-const Login: React.FC<LoginProps> = ({ checkUserCredentials }) => {
+const Login: React.FC<LoginProps> = ({ checkUserCredentials, registerUser }) => {
     const [credentials, setCredentials] = useState<LoginInformation>({
         userName: '',
         password: ''
     });
+    const [isRegistering, setIsRegistering] = useState(false);
+    const [message, setMessage] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -21,9 +23,23 @@ const Login: React.FC<LoginProps> = ({ checkUserCredentials }) => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        checkUserCredentials(credentials);
+        if (isRegistering) {
+            try {
+                await registerUser(credentials);
+                setMessage('User registered successfully!');
+            } catch (error) {
+                setMessage('Registration failed. Please try again.');
+            }
+        } else {
+            const isValidUser = await checkUserCredentials(credentials);
+            if (isValidUser) {
+                setMessage('Login successful!');
+            } else {
+                setMessage('Invalid username or password.');
+            }
+        }
     };
 
     return (
@@ -68,9 +84,17 @@ const Login: React.FC<LoginProps> = ({ checkUserCredentials }) => {
                     </div>
 
                     <div className="button-container">
-                        <button type="submit" className="register-button">Registrer</button>
+                        <button type="submit" className="register-button">
+                            {isRegistering ? 'Registrer' : 'Logg inn'}
+                        </button>
                     </div>
                 </form>
+                <div className="toggle-container">
+                    <button onClick={() => setIsRegistering(!isRegistering)}>
+                        {isRegistering ? 'Allerede registrert? Logg inn her' : 'Ny bruker? Registrer deg her'}
+                    </button>
+                </div>
+                {message && <div className="message">{message}</div>}
             </div>
         </div>
     );
