@@ -1,11 +1,11 @@
 import React from 'react';
 import '../styles/Login.css';
-import { LoginInformation } from '../components/types';
+import { LoginInformation } from './types';
 
 interface LoginProps {
   credentials: LoginInformation;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent) => void;
+  handleSubmit: (e: React.FormEvent) => Promise<void>;
   isRegistering: boolean;
   setIsRegistering: React.Dispatch<React.SetStateAction<boolean>>;
   message: string;
