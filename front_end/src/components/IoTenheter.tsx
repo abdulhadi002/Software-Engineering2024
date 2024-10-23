@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './iotenheter.css';
+import '../styles/IoTenheter.css';
 
 const IoTenheter: React.FC = () => {
     // State for å holde på listen over IoT-enheter
