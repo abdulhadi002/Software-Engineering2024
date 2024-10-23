@@ -1,6 +1,7 @@
 {
     "device_data": [
-        {"device_name": "hadi",
+        {
+        "device_name": "hadi",
         "device_status": true,
         "device_version": "ios 18.0.1",
         "device_description": "new device",
