@@ -10,3 +10,9 @@ export type DeviceData = {
     userName: string;
     password: string; 
   };
+
+  export type ProfileData = {
+    userName: string;
+    password: string;
+    membership: 'Basic' | 'Premium';
+  };
