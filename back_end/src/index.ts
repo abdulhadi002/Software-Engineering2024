@@ -118,6 +118,7 @@ app.use("/*", cors());
 
 app.use("/statics/*", serveStatic({ root: "./" }));
 
+
 app.get("/json", async (c) => {
   const get_device = await readFile("./backend/src/data.json", "utf-8");
   return c.json(JSON.parse(get_device));
@@ -141,32 +142,57 @@ app.post("/json", async (c) => {
 });
 
 app.post('/login', async (c) => {
-    try {
-        const credentials = await c.req.json();
-        const data = await readFile('./backend/src/PersonData.json', 'utf-8');
-        const users = JSON.parse(data);
-        const isValidUser = users.some((user: { userName: any; password: any; }) => user.userName === credentials.userName && user.password === credentials.password);
-        if (isValidUser) {
-            return c.json({ success: true });
-        } else {
-            return c.json({ success: false }, 401);
-        }
-    } catch (error) {
-        return c.text('Error while checking user credentials', 500);
+  try {
+    const credentials = await c.req.json();
+    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const users = JSON.parse(data);
+    const isValidUser = users.some((user: { userName: any; password: any; }) => user.userName === credentials.userName && user.password === credentials.password);
+    if (isValidUser) {
+      return c.json({ success: true });
+    } else {
+      return c.json({ success: false }, 401);
     }
+  } catch (error) {
+    return c.text('Error while checking user credentials', 500);
+  }
 });
 
+
 app.post('/register', async (c) => {
-    try {
-        const newUser = await c.req.json();
-        const data = await readFile('./backend/src/PersonData.json', 'utf-8');
-        const users = JSON.parse(data);
-        users.push(newUser);
-        await writeFile('./backend/src/PersonData.json', JSON.stringify(users, null, 2));
-        return c.json({ success: true });
-    } catch (error) {
-        return c.text('Error while registering user', 500);
-    }
+  try {
+    const newUser = await c.req.json();
+    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const users = JSON.parse(data);
+    users.push(newUser);
+    await writeFile('./backend/src/PersonData.json', JSON.stringify(users, null, 2));
+    return c.json({ success: true });
+  } catch (error) {
+    return c.text('Error while registering user', 500);
+  }
+});
+
+app.get('/profile', async (c) => {
+  try {
+    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const users = JSON.parse(data);
+    const profileData = users[0];
+    return c.json(profileData);
+  } catch (error) {
+    return c.text('Error fetching profile data', 500);
+  }
+});
+
+app.put('/profile', async (c) => {
+  try {
+    const updatedProfile = await c.req.json();
+    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const users = JSON.parse(data);
+    users[0] = { ...users[0], ...updatedProfile };
+    await writeFile('./backend/src/PersonData.json', JSON.stringify(users, null, 2));
+    return c.json({ success: true });
+  } catch (error) {
+    return c.text('Error updating profile data', 500);
+  }
 });
 
 const port = 6969
