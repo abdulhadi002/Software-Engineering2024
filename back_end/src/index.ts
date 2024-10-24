@@ -118,7 +118,6 @@ app.use("/*", cors());
 
 app.use("/statics/*", serveStatic({ root: "./" }));
 
-
 app.get("/json", async (c) => {
   const get_device = await readFile("./backend/src/data.json", "utf-8");
   return c.json(JSON.parse(get_device));
@@ -157,7 +156,6 @@ app.post('/login', async (c) => {
   }
 });
 
-
 app.post('/register', async (c) => {
   try {
     const newUser = await c.req.json();
@@ -182,16 +180,17 @@ app.get('/profile', async (c) => {
   }
 });
 
+
 app.put('/profile', async (c) => {
   try {
-    const updatedProfile = await c.req.json();
+    const { password } = await c.req.json();
     const data = await readFile('./backend/src/PersonData.json', 'utf-8');
     const users = JSON.parse(data);
-    users[0] = { ...users[0], ...updatedProfile };
+    users[0] = { ...users[0], password };
     await writeFile('./backend/src/PersonData.json', JSON.stringify(users, null, 2));
     return c.json({ success: true });
   } catch (error) {
-    return c.text('Error updating profile data', 500);
+    return c.text('Error updating profile password', 500);
   }
 });
 
