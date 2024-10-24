@@ -2,21 +2,17 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import { LoginInformation } from './components/Types';
-import Footer from './components/Footer'; // Importing the Footer component
-import Nav from './components/Nav'; // Importing the Nav component
+import Footer from './components/Footer'; 
+import Nav from './components/Nav'; 
 import Layout from './components/Layout';
 import IoTenheter from './components/IoTenheter';
 
 const App: React.FC = () => {
-  // Funksjon for å sjekke brukerens innloggingsinformasjon
   const checkUserCredentials = async (credentials: LoginInformation): Promise<boolean> => {
-    // Simulerer en autentisering
     return credentials.userName === 'admin' && credentials.password === 'admin';
   };
 
-  // Funksjon for å registrere brukeren (for nå bare en placeholder)
   const registerUser = async (credentials: LoginInformation): Promise<void> => {
-    // Simulerer registrering av ny bruker
     console.log('Registrerer ny bruker:', credentials);
   };
 
