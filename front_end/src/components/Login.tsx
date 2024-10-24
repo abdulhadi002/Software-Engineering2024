@@ -13,14 +13,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({ credentials, handleChange, handleSubmit, isRegistering, setIsRegistering, message }) => {
   return (
-    <div className="container">
-      <div className="header">
-        <button className="app-title">BLUE-BOOTH</button>
-        <div className="icons">
-          <button className="bluetooth-icon"></button>
-          <button className="profile-icon"></button>
-        </div>
-      </div>
+   
 
       <div className="login-section">
         <h2>{isRegistering ? 'Registrer' : 'Login'}</h2>
@@ -68,7 +61,7 @@ const Login: React.FC<LoginProps> = ({ credentials, handleChange, handleSubmit, 
 
         {message && <div className="message">{message}</div>}
       </div>
-    </div>
+    
   );
 };
 

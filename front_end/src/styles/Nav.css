@@ -1,0 +1,36 @@
+x/* src/styles/Nav.css */
+.header {
+    background-color: #464646;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Aligns items at both ends */
+    align-items: center; /* Centers items vertically */
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar ul li {
+    margin: 0 15px;
+}
+
+.navbar ul li a {
+    color: rgba(217, 217, 217, 1);
+    text-decoration: none;
+    font-size: 40px;
+    display: flex; 
+    align-items: center; 
+}
+
+.navbar ul li a i {
+    margin-right: 5px;
+}

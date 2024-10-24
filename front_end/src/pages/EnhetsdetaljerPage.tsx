@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Enhetsdetaljer from '../components/Enhetsdetaljer';
-import { DeviceData } from '../components/types';
+import { DeviceData } from '../components/Types.tsx';
 
 const EnhetsdetaljerPage = () => {
   const { deviceId } = useParams<{ deviceId: string }>();

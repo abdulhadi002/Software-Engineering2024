@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import { LoginInformation } from './components/Types';
+import Footer from './components/Footer'; // Importing the Footer component
+import Nav from './components/Nav'; // Importing the Nav component
+import Layout from './components/Layout';
 
 const App: React.FC = () => {
   // Funksjon for å sjekke brukerens innloggingsinformasjon
@@ -18,10 +21,12 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <Routes>
-        {/* LoginPage er nå den eneste ruten for testing */}
-        <Route path="/" element={<LoginPage checkUserCredentials={checkUserCredentials} registerUser={registerUser} />} />
+        <Layout>
+          <Routes>
+          {/* LoginPage er nå den eneste ruten for testing */}
+          <Route path="/" element={<LoginPage checkUserCredentials={checkUserCredentials} registerUser={registerUser} />} />
       </Routes>
+        </Layout>
     </Router>
   );
 };
