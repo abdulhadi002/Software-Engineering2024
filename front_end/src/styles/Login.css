@@ -2,6 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #5ca4af;
+    justify-content: center;
 }
 
 .container {
@@ -17,7 +18,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #444;
+    background-color: #931d1d;
     padding: 10px 20px;
 }
 
@@ -29,6 +30,18 @@ body {
     border-radius: 10px;
     padding: 10px 20px;
     font-weight: bold;
+}
+
+#h2-login{
+    font-size: 25px;
+   font-weight: 600;
+   color: #000;
+
+}
+
+#userName , #password{
+    color: #000;
+    background-color: white;
 }
 
 .icons {
@@ -45,7 +58,7 @@ body {
 
 .login-section {
     width: 300px;
-    background-color: #66b2b2;
+    background-color: rgba(217, 217, 217, 1);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -66,12 +79,13 @@ label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
+    color: #000;
 }
 
 input[type="text"], input[type="password"] {
     width: 100%;
     padding: 10px;
-    border: 2px solid #ccc;
+    border: 2px solid #000000;
     border-radius: 5px;
     box-sizing: border-box;
 }
@@ -88,7 +102,8 @@ input[type="text"], input[type="password"] {
 }
 
 .button-container {
-    text-align: right;
+    text-align: center;
+    margin: 20px;
 }
 
 .register-button {

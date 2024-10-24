@@ -1,29 +1,46 @@
-x/* src/styles/Nav.css */
+/* src/styles/Nav.css */
 .header {
     background-color: #464646;
     color: white;
     text-align: center;
     padding: 20px;
     width: 100%;
+    position: fixed; /* Fixed position */
+    top: 0; /* Aligns the navbar to the top of the viewport */
+    left: 0; /* Ensures it starts from the left edge */
+    z-index: 1000; /* Keeps it above other elements */
 }
 
 .navbar {
     display: flex;
-    justify-content: space-between; /* Aligns items at both ends */
+    justify-content: center; /* Center all items within the navbar */
     align-items: center; /* Centers items vertically */
+    position: relative; /* Enables absolute positioning for the right-icons */
+    width: 100%; /* Ensure the navbar stretches across the screen */
 }
 
-.navbar ul {
+.center-box {
+    background-color: rgba(217, 217, 217, 1);
+    padding: 15px;
+    width: 200px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-align: center; /* Center text in the middle */
+}
+
+.right-icons {
+    position: absolute; /* Position icons absolutely within the navbar */
+    right: 50px; /* Distance from the right side */
     list-style: none;
-    display: flex;
-    justify-content: center;
+    display: flex; /* Display icons in a row */
+    align-items: center; /* Center icons vertically */
 }
 
-.navbar ul li {
-    margin: 0 15px;
+.right-icons li {
+    margin-left: 25px; /* Space between icons */
 }
 
-.navbar ul li a {
+.right-icons li a {
     color: rgba(217, 217, 217, 1);
     text-decoration: none;
     font-size: 40px;
@@ -31,6 +48,6 @@ x/* src/styles/Nav.css */
     align-items: center; 
 }
 
-.navbar ul li a i {
-    margin-right: 5px;
+.right-icons li a i {
+    margin-right: 5px; /* Space between icon and text */
 }

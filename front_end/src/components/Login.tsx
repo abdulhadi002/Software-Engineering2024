@@ -16,7 +16,7 @@ const Login: React.FC<LoginProps> = ({ credentials, handleChange, handleSubmit, 
    
 
       <div className="login-section">
-        <h2>{isRegistering ? 'Registrer' : 'Login'}</h2>
+        <h2 id='h2-login'>{isRegistering ? 'Registrer' : 'Login'}</h2>
         <form onSubmit={handleSubmit}>
           <div className="input-container">
             <label htmlFor="userName">Brukernavn</label>
