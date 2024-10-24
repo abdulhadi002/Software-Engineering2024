@@ -5,6 +5,7 @@ import { LoginInformation } from './components/Types';
 import Footer from './components/Footer'; // Importing the Footer component
 import Nav from './components/Nav'; // Importing the Nav component
 import Layout from './components/Layout';
+import IoTenheter from './components/IoTenheter';
 
 const App: React.FC = () => {
   // Funksjon for å sjekke brukerens innloggingsinformasjon
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           <Routes>
           {/* LoginPage er nå den eneste ruten for testing */}
           <Route path="/" element={<LoginPage checkUserCredentials={checkUserCredentials} registerUser={registerUser} />} />
+          <Route path="/hovedmeny" element={<IoTenheter/>}/>
       </Routes>
         </Layout>
     </Router>
