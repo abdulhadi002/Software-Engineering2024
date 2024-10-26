@@ -11,6 +11,11 @@ export type DeviceData = {
     password: string; 
   };
 
+  interface LoginProps {
+    checkUserCredentials: (credentials: LoginInformation) => void;
+    registerNewUser: (credentials: LoginInformation) => void;
+  }
+
   export type ProfileData = {
     userName: string;
     password: string;

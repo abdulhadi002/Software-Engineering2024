@@ -1,15 +1,33 @@
-import React from 'react';
-import useLogin from '../hooks/useLogin';
-import Login from '../components//Login';
+// LoginPage.tsx
+
+import React, { useState } from 'react';
+import Login from '../components/Login';
 import { LoginInformation } from '../components/Types';
 
 interface LoginPageProps {
-  checkUserCredentials: (credentials: LoginInformation) => Promise<boolean>;
-  registerUser: (credentials: LoginInformation) => Promise<void>;
+  onLogin: () => void;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ checkUserCredentials, registerUser }) => {
-  const { credentials, handleChange, handleSubmit, isRegistering, setIsRegistering, message } = useLogin(checkUserCredentials, registerUser);
+const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
+  const [credentials, setCredentials] = useState<LoginInformation>({ userName: '', password: '' });
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setCredentials((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulere en innlogging eller registreringsprosess
+    if (credentials.userName === 'test' && credentials.password === 'password') {
+      setMessage('Innlogging vellykket');
+      onLogin();
+    } else {
+      setMessage('Innlogging mislyktes. Sjekk brukernavn og passord.');
+    }
+  };
 
   return (
     <div>

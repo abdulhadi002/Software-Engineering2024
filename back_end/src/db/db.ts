@@ -1,6 +1,4 @@
 import Database from 'better-sqlite3';
 
-const db = new Database('database.db', { verbose: console.log });
-
-export type DB = typeof db;
+const db = new Database('dev.db', { verbose: console.log });
 export default db;
