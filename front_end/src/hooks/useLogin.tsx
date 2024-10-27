@@ -3,7 +3,7 @@ import { LoginInformation } from '../components/Types';
 
 const useLogin = (checkUserCredentials: (credentials: LoginInformation) => Promise<boolean>, registerUser: (credentials: LoginInformation) => Promise<void>) => {
   const [credentials, setCredentials] = useState<LoginInformation>({
-    userName: '',
+    username: '',
     password: ''
   });
   const [isRegistering, setIsRegistering] = useState(false);
@@ -23,7 +23,7 @@ const useLogin = (checkUserCredentials: (credentials: LoginInformation) => Promi
       try {
         await registerUser(credentials);
         setMessage('Bruker registrert! Vennligst logg inn.');
-        setIsRegistering(false); // Bytt til login etter vellykket registrering
+        setIsRegistering(false);
       } catch (error) {
         setMessage('Registrering feilet. Prøv igjen.');
       }

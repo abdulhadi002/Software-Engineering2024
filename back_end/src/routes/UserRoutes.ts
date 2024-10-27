@@ -1,17 +1,37 @@
-import express from 'express';
-import { getAllUsers, createUser } from '../controllers/UserController';
+import { Hono } from 'hono';
+import { registerUser, findUserByCredentials } from '../db/userRepository';
+import { cors } from 'hono/cors';
 
-const router = express.Router();
+const userRoutes = new Hono();
 
-router.get('/users', (req, res) => {
-    const users = getAllUsers();
-    res.json(users);
+userRoutes.use(
+    '/*',
+    cors({
+      origin: 'http://localhost:5173',
+    })
+  );
+
+userRoutes.post('/register', async (c) => {
+  const { username, password } = await c.req.json();
+
+  const existingUser = findUserByCredentials(username, password);
+  if (existingUser) {
+    return c.json({ message: 'Username is already taken' }, 400);
+  }
+
+  registerUser(username, password);
+  return c.json({ message: 'User registered' }, 201);
 });
 
-router.post('/users', (req, res) => {
-    const { id, username, email, createdAt } = req.body;
-    createUser({ id, username, email, createdAt: new Date(createdAt) });
-    res.status(201).send('User created');
+userRoutes.post('/login', async (c) => {
+  const { username, password } = await c.req.json();
+
+  const user = findUserByCredentials(username, password);
+  if (user) {
+    return c.json({ message: 'Login successful' }, 200);
+  } else {
+    return c.json({ message: 'Invalid credentials' }, 401);
+  }
 });
 
-export default router;
+export default userRoutes;
