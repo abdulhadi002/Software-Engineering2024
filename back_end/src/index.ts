@@ -1,22 +1,31 @@
 import { Hono } from 'hono';
-import { serve } from "@hono/node-server";
+import { serve } from '@hono/node-server';
 import { cors } from 'hono/cors';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { readFile, writeFile } from 'node:fs/promises';
-import db from "./db/db";
-import { setup } from "./db/setup";
+import db from './db/db';
+import { setup } from './db/setup';
+import path from 'node:path';
+import { findUserByCredentials, registerUser } from './db/userRepository';
 
 const app = new Hono();
 
-app.use('/*', cors({
-  origin: 'http://localhost:5173'
-}));
+app.use(
+  '/*',
+  cors({
+    origin: 'http://localhost:5173',
+  })
+);
 
 app.use('/statics/*', serveStatic({ root: './public' }));
 
+const dataFilePath = path.resolve(__dirname, './data.json');
+const personDataFilePath = path.resolve(__dirname, './PersonData.json');
+
+
 app.get('/devices', async (c) => {
   try {
-    const data = await readFile('./backend/src/data.json', 'utf-8');
+    const data = await readFile(dataFilePath, 'utf-8');
     const devices = JSON.parse(data);
     return c.json(devices);
   } catch (error) {
@@ -25,17 +34,17 @@ app.get('/devices', async (c) => {
   }
 });
 
+
 app.post('/devices', async (c) => {
   try {
     const newDevice = await c.req.json();
-    const data = await readFile('./backend/src/data.json', 'utf-8');
+    const data = await readFile(dataFilePath, 'utf-8');
     const devices = JSON.parse(data).devices;
 
     newDevice.id = devices.length ? devices[devices.length - 1].id + 1 : 1;
     devices.push(newDevice);
 
-    await writeFile('./backend/src/data.json', JSON.stringify({ devices }, null, 2));
-
+    await writeFile(dataFilePath, JSON.stringify({ devices }, null, 2));
     return c.json(newDevice, 201);
   } catch (error) {
     console.error('Error while adding device:', error);
@@ -43,10 +52,11 @@ app.post('/devices', async (c) => {
   }
 });
 
+
 app.delete('/devices/:index', async (c) => {
   try {
     const index = parseInt(c.req.param('index'), 10);
-    const data = await readFile('./backend/src/data.json', 'utf-8');
+    const data = await readFile(dataFilePath, 'utf-8');
     const devices = JSON.parse(data).devices;
 
     if (isNaN(index) || index < 0 || index >= devices.length) {
@@ -54,8 +64,7 @@ app.delete('/devices/:index', async (c) => {
     }
 
     devices.splice(index, 1);
-    await writeFile('./backend/src/data.json', JSON.stringify({ devices }, null, 2));
-
+    await writeFile(dataFilePath, JSON.stringify({ devices }, null, 2));
     return c.text('Device deleted', 204);
   } catch (error) {
     console.error('Error while deleting device:', error);
@@ -63,12 +72,17 @@ app.delete('/devices/:index', async (c) => {
   }
 });
 
+
 app.post('/login', async (c) => {
   try {
     const credentials = await c.req.json();
-    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const data = await readFile(personDataFilePath, 'utf-8');
     const users = JSON.parse(data);
-    const isValidUser = users.some((user: { userName: string, password: string }) => user.userName === credentials.userName && user.password === credentials.password);
+    const isValidUser = users.some(
+      (user: { userName: string; password: string }) =>
+        user.userName === credentials.userName &&
+        user.password === credentials.password
+    );
 
     return isValidUser ? c.json({ success: true }) : c.json({ success: false }, 401);
   } catch (error) {
@@ -77,25 +91,27 @@ app.post('/login', async (c) => {
   }
 });
 
+
 app.post('/register', async (c) => {
-  try {
-    const newUser = await c.req.json();
-    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
-    const users = JSON.parse(data);
-    users.push(newUser);
-    await writeFile('./backend/src/PersonData.json', JSON.stringify(users, null, 2));
-    return c.json({ success: true });
-  } catch (error) {
-    console.error('Error while registering user:', error);
-    return c.text('Error while registering user', 500);
+  const { username, email, password } = await c.req.json();
+
+ 
+  const existingUser = findUserByCredentials(username, password);
+  if (existingUser) {
+    return c.json({ message: 'Brukernavnet er allerede tatt' }, 400);
   }
+
+  
+  registerUser(username, password);
+  return c.json({ message: 'Bruker registrert' }, 201);
 });
+
 
 app.get('/profile', async (c) => {
   try {
-    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const data = await readFile(personDataFilePath, 'utf-8');
     const users = JSON.parse(data);
-    const profileData = users[0]; 
+    const profileData = users[0];
     return c.json(profileData);
   } catch (error) {
     console.error('Error fetching profile data:', error);
@@ -103,13 +119,15 @@ app.get('/profile', async (c) => {
   }
 });
 
+
 app.put('/profile', async (c) => {
   try {
     const { password } = await c.req.json();
-    const data = await readFile('./backend/src/PersonData.json', 'utf-8');
+    const data = await readFile(personDataFilePath, 'utf-8');
     const users = JSON.parse(data);
     users[0] = { ...users[0], password };
-    await writeFile('./backend/src/PersonData.json', JSON.stringify(users, null, 2));
+
+    await writeFile(personDataFilePath, JSON.stringify(users, null, 2));
     return c.json({ success: true });
   } catch (error) {
     console.error('Error updating profile password:', error);
@@ -117,12 +135,14 @@ app.put('/profile', async (c) => {
   }
 });
 
+
 (async () => {
   await setup(db);
 })();
 
+
 const port = 6969;
-console.log(`Server is running on port ${port}`);
+console.log(`Server is running on http://localhost:${port}`);
 
 serve({
   fetch: app.fetch,

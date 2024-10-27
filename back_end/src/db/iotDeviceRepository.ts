@@ -9,11 +9,11 @@ export interface DbIotDevice {
 }
 
 export const getAllDevices = (): DbIotDevice[] => {
-  return db.prepare('SELECT * FROM iot_devices').all();
+  return db.prepare('SELECT * FROM iot_devices').all() as DbIotDevice[]; 
 };
 
 export const getDeviceById = (id: string): DbIotDevice | undefined => {
-  return db.prepare('SELECT * FROM iot_devices WHERE id = ?').get(id);
+  return db.prepare('SELECT * FROM iot_devices WHERE id = ?').get(id) as DbIotDevice | undefined;
 };
 
 export const createDevice = (device: DbIotDevice): void => {
