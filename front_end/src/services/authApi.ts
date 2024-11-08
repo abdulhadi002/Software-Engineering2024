@@ -1,11 +1,11 @@
-export const registerUser = async (username: string, email: string, password: string): Promise<void> => {
+export const registerUser = async (username: string, password: string): Promise<void> => {
     try {
       const response = await fetch('http://localhost:6969/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, password }),
       });
   
       if (response.ok) {

@@ -3,11 +3,10 @@ import { registerUser } from '../services/authApi';
 
 const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleRegister = async () => {
-    await registerUser(username, email, password);
+    await registerUser(username, password);
   };
 
   return (
@@ -18,12 +17,6 @@ const RegisterPage: React.FC = () => {
         placeholder="Brukernavn"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="E-post"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
       />
       <input
         type="password"
