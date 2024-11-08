@@ -2,10 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../Styles/Nav.css';
 
-const Nav: React.FC = () => {
+type IotEnheterProps = {
+    onLogout: () => void;
+  };
+
+const Nav: React.FC<IotEnheterProps> = ({onLogout}) => {
     return (
 <header className="header">
     <nav className="navbar">
+        <button onClick={onLogout}>Logg ut</button>
         <div className="center-box">BLUE-BOOTH</div>
         <ul className="right-icons">
             <li id="icon-1">

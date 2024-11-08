@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/iotenheter.css';
 
-type IotEnheterProps = {
-    onLogout: () => void;
-  };
-
-const IoTenheter: React.FC<IotEnheterProps> = ({ onLogout }) => {
+const IoTenheter: React.FC = () => {
     const [devices, setDevices] = useState<string[]>([]);
     const [newDevice, setNewDevice] = useState<string>("");
 
@@ -56,7 +52,6 @@ const IoTenheter: React.FC<IotEnheterProps> = ({ onLogout }) => {
     return (
         <div className="enhetsliste">
             <h2>Enhetsliste</h2>
-            <button onClick={onLogout}>Logg ut</button>
             <div className="input-container">
                 <input
                     type="text"
