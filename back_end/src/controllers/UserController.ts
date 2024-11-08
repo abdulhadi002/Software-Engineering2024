@@ -1,5 +1,5 @@
 import db from '../db/db';
-import { mapRowToUser, mapUserToRow } from '../db/UserMapper';
+import { mapRowToUser, mapUserToRow } from '../mappers/UserMapper';
 import { User } from '../models/User';
 
 export const getAllUsers = (): User[] => {
