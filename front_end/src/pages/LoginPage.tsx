@@ -40,7 +40,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           setIsRegistering(false);
         } else {
           onLogin();
-          navigate('/hovedmeny');
+          navigate('/IotEnheter');
         }
       } else {
         const errorData = await response.json();

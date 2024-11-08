@@ -1,11 +1,9 @@
-// App.tsx
-
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import LoginPage from './pages/LoginPage';
-import Hovedmeny from './components/Hovedmeny';
 import Enhetsdetaljer from './components/Enhetsdetaljer';
 import Layout from './components/Layout';
+import IoTenheter from './components/IoTenheter';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -24,11 +22,11 @@ function App() {
         <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
 
         <Route
-          path="/hovedmeny"
+          path="/IotEnheter"
           element={
             isAuthenticated ? (
               <Layout>
-                <Hovedmeny onLogout={handleLogout} />
+                <IoTenheter onLogout={handleLogout} />
               </Layout>
             ) : (
               <Navigate to="/" />

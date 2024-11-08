@@ -13,7 +13,7 @@ export type LoginInformation = {
   password: string;
 };
 
-export interface LoginProps {
+export type LoginProps = {
   credentials: LoginInformation;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
