@@ -1,5 +1,5 @@
 import * as iotDeviceRepository from './iotDeviceRepository';
-import { IotDevice } from './mappers';
+import { IotDevice } from './IoTmappers';
 
 export const fetchDevices = (): IotDevice[] => {
   return iotDeviceRepository.getAllDevices().map(device => ({

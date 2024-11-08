@@ -1,10 +1,6 @@
+import { User } from '../models/User';
 import db from './db';
 
-export interface User {
-  id: string;
-  username: string;
-  password: string;
-}
 
 export const findUserByCredentials = (username: string, password: string): User | undefined => {
   const result = db
