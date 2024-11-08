@@ -1,4 +1,3 @@
-// src/components/Layout.tsx
 import React from 'react';
 import Nav from './Nav';
 import Footer from './Footer';
@@ -8,7 +7,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <div className="layout">
             <Nav />
             <main className="main">
-                {children} {/* This is where other page content will be rendered */}
+                {children}
             </main>
             <Footer />
         </div>

@@ -10,7 +10,6 @@ import Layout from './components/Layout';
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Funksjon for å oppdatere autentiseringstilstand etter login
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
@@ -22,10 +21,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* LoginPage som håndterer både login og registrering */}
         <Route path="/" element={<LoginPage onLogin={handleLogin} />} />
 
-        {/* Protected Routes */}
         <Route
           path="/hovedmeny"
           element={

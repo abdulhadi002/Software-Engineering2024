@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../Styles/Nav.css'; // Ensure this path is correct
+import '../Styles/Nav.css';
 
 const Nav: React.FC = () => {
     return (

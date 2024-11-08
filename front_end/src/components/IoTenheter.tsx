@@ -2,11 +2,9 @@ import React, { useState, useEffect } from 'react';
 import '../styles/iotenheter.css';
 
 const IoTenheter: React.FC = () => {
-    // State for å holde på listen over IoT-enheter
     const [devices, setDevices] = useState<string[]>([]);
     const [newDevice, setNewDevice] = useState<string>("");
 
-    // Hente enheter fra backend når komponenten laster
     useEffect(() => {
       fetch('http://localhost:3000/devices')
           .then(response => {
@@ -21,7 +19,6 @@ const IoTenheter: React.FC = () => {
   
   
 
-    // Funksjon for å legge til en ny IoT-enhet
     const addDevice = () => {
       if (newDevice.trim() !== "") {
           fetch('http://localhost:3000/devices', {
@@ -33,15 +30,14 @@ const IoTenheter: React.FC = () => {
           })
               .then(response => response.json())
               .then(data => {
-                  setDevices([...devices, data.name]); // Oppdatere listen med ny enhet
-                  setNewDevice(""); // Resetter inputfeltet
+                  setDevices([...devices, data.name]);
+                  setNewDevice("");
               })
               .catch(error => console.error('Error adding device:', error));
       }
   };
   
 
-    // Funksjon for å slette en spesifikk enhet
     const removeDevice = (index: number) => {
         fetch(`http://localhost:3000/devices/${index}`, {
             method: 'DELETE',
@@ -56,8 +52,6 @@ const IoTenheter: React.FC = () => {
     return (
         <div className="enhetsliste">
             <h2>Enhetsliste</h2>
-
-            {/* Input og knapp for å legge til ny enhet */}
             <div className="input-container">
                 <input
                     type="text"
@@ -69,7 +63,6 @@ const IoTenheter: React.FC = () => {
                 <button onClick={addDevice} className="add-button">Legg til</button>
             </div>
 
-            {/* Liste over enheter */}
             {devices.length > 0 ? (
                 devices.map((device, index) => (
                     <div key={index} className="enhets-element">
