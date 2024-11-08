@@ -50,3 +50,14 @@
 .right-icons li a i {
     margin-right: 5px;
 }
+
+.logout-button {
+    margin-left: auto;
+    padding: 5px 20px;
+    border-radius: 5px;
+
+}
+
+.logout-button:hover {
+    background-color: #ddd;
+}
