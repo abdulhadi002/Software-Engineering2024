@@ -9,8 +9,8 @@ type IotEnheterProps = {
 const Nav: React.FC<IotEnheterProps> = ({onLogout}) => {
     return (
 <header className="header">
+    <button className='logout-button' onClick={onLogout}>Logg ut</button>
     <nav className="navbar">
-        <button onClick={onLogout}>Logg ut</button>
         <div className="center-box">BLUE-BOOTH</div>
         <ul className="right-icons">
             <li id="icon-1">

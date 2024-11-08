@@ -11,11 +11,7 @@ function App() {
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
-
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-  };
-
+  
   return (
     <Router>
       <Routes>
@@ -26,7 +22,7 @@ function App() {
           element={
             isAuthenticated ? (
               <Layout>
-                <IoTenheter onLogout={handleLogout} />
+                <IoTenheter/>
               </Layout>
             ) : (
               <Navigate to="/" />
