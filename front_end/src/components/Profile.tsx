@@ -32,7 +32,7 @@ const Profile: React.FC = () => {
     <div className="profile-info">
         <div className="info-item">
         <span className="label">Brukernavn:</span>
-        <span className="value">{profileData.userName}</span>
+        <span className="value">{profileData.username}</span>
         </div>
         <div className="info-item">
         <span className="label">Passord:</span>

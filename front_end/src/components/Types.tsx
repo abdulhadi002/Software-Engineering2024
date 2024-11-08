@@ -1,4 +1,3 @@
-// Types.tsx
 import React from 'react';
 
 export type DeviceData = {
