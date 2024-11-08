@@ -1,0 +1,52 @@
+.header {
+    background-color: #464646;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.center-box {
+    background-color: rgba(217, 217, 217, 1);
+    padding: 15px;
+    width: 200px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.right-icons {
+    position: absolute;
+    right: 50px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+.right-icons li {
+    margin-left: 25px;
+}
+
+.right-icons li a {
+    color: rgba(217, 217, 217, 1);
+    text-decoration: none;
+    font-size: 40px;
+    display: flex; 
+    align-items: center; 
+}
+
+.right-icons li a i {
+    margin-right: 5px;
+}

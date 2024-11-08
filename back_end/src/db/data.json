@@ -1,0 +1,9 @@
+{
+  "users": [
+    { "id": "1", "username": "johndoe", "password": "password123" },
+    { "id": "2", "username": "janedoe", "password": "password456" }
+  ],
+  "devices": [
+    { "id": "1", "name": "Device1", "type": "TypeA", "user_id": "1", "purchased_at": "2024-01-01", "status": "active" }
+  ]
+}
