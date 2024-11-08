@@ -1,12 +1,5 @@
-import db from './db';
-
-export interface DbIotDevice {
-  id: string;
-  navn: string;
-  enhetsStatus: string;
-  versjon: string;
-  beskrivelse: string;
-}
+import db from '../db/db';
+import { DbIotDevice } from '../models/IotDevice';
 
 export const getAllDevices = (): DbIotDevice[] => {
   return db.prepare('SELECT * FROM iot_devices').all() as DbIotDevice[]; 
