@@ -1,5 +1,5 @@
 import { User } from '../models/User';
-import db from './db';
+import db from '../db/db';
 
 
 export const findUserByCredentials = (username: string, password: string): User | undefined => {

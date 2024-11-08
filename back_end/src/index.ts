@@ -4,7 +4,7 @@ import { cors } from 'hono/cors';
 import { serveStatic } from '@hono/node-server/serve-static';
 import db from './db/db';
 import { setup } from './db/setup';
-import { findUserByCredentials, registerUser } from './db/userRepository';
+import { findUserByCredentials, registerUser } from './repository/userRepository';
 import { User } from './models/User';
 
 const app = new Hono();
