@@ -13,7 +13,7 @@ app.use(cors({
 app.use(express.json());
 
 app.use('/auth', authRoutes);
-app.use('/devices', iotDeviceRoutes);
+app.use('/IotEnheter', iotDeviceRoutes);
 
 const port = 6969;
 app.listen(port, () => {
