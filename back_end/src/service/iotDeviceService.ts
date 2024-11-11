@@ -13,7 +13,13 @@ export const fetchDevices = (): IotDevice[] => {
 
 export const fetchDeviceById = (id: string): IotDevice | undefined => {
   const device = iotDeviceRepository.getDeviceById(id);
-  return device ? { id: device.id, navn: device.navn, enhetsStatus: device.enhetsStatus, versjon: device.versjon, beskrivelse: device.beskrivelse } : undefined;
+  return device ? {
+    id: device.id,
+    navn: device.navn,
+    enhetsStatus: device.enhetsStatus,
+    versjon: device.versjon,
+    beskrivelse: device.beskrivelse
+  } : undefined;
 };
 
 export const addDevice = (device: IotDevice): void => {

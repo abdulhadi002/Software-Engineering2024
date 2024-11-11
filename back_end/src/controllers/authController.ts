@@ -1,18 +1,18 @@
-import { Hono } from 'hono';
-import { registerUser, findUserByCredentials } from '../repository/userRepository';
+import express from 'express';
+import * as authService from '../service/authService';
 
-const userRoutes = new Hono();
+const router = express.Router();
 
-userRoutes.post('/register', async (c) => {
-  const { username, password } = await c.req.json();
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
 
-  const existingUser = findUserByCredentials(username, password);
-  if (existingUser) {
-    return c.json({ message: 'Brukernavnet er allerede tatt' }, 400);
+  const result = authService.authenticateUser(username, password);
+
+  if (result.success) {
+    res.json({ message: 'Innlogging vellykket', user: result.user });
+  } else {
+    res.status(401).json({ message: result.message });
   }
-
-  registerUser(username, password);
-  return c.json({ message: 'Bruker registrert' }, 201);
 });
 
-export default userRoutes;
+export default router;
