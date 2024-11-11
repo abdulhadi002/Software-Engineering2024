@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchDevices, addDevice, deleteDevice } from '../../api';
+import { fetchDevices, addDevice as addDeviceApi, deleteDevice as deleteDeviceApi } from '../../api';
 
 const useDevices = () => {
   const [devices, setDevices] = useState<string[]>([]);
@@ -9,7 +9,11 @@ const useDevices = () => {
     const getDevices = async () => {
       try {
         const data = await fetchDevices();
-        setDevices(data.map((device: any) => device.name));
+        if (Array.isArray(data)) {
+          setDevices(data.map((device: any) => device.name));
+        } else {
+          console.error('Expected an array but got:', data);
+        }
       } catch (error) {
         console.error('Error fetching devices:', error);
       }
@@ -21,8 +25,8 @@ const useDevices = () => {
   const handleAddDevice = async () => {
     if (newDevice.trim() !== "") {
       try {
-        const data = await addDevice(newDevice);
-        setDevices([...devices, data.name]);
+        const data = await addDeviceApi(newDevice);
+        setDevices((prevDevices) => [...prevDevices, data.name]);
         setNewDevice("");
       } catch (error) {
         console.error('Error adding device:', error);
@@ -32,9 +36,8 @@ const useDevices = () => {
 
   const handleRemoveDevice = async (index: number) => {
     try {
-      await deleteDevice(index);
-      const updatedDevices = devices.filter((_, i) => i !== index);
-      setDevices(updatedDevices);
+      await deleteDeviceApi(index);
+      setDevices((prevDevices) => prevDevices.filter((_, i) => i !== index));
     } catch (error) {
       console.error('Error deleting device:', error);
     }

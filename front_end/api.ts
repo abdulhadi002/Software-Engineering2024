@@ -3,7 +3,7 @@ import { LoginInformation } from "./src/components/Types";
 const API_BASE_URL = 'http://localhost:6969';
 
 export const fetchDevices = async () => {
-  const response = await fetch(`${API_BASE_URL}/devices`);
+  const response = await fetch(`${API_BASE_URL}/IotEnheter`);
   if (!response.ok) {
     throw new Error(`Server error: ${response.status}`);
   }
@@ -11,7 +11,7 @@ export const fetchDevices = async () => {
 };
 
 export const addDevice = async (deviceName: string) => {
-  const response = await fetch(`${API_BASE_URL}/devices`, {
+  const response = await fetch(`${API_BASE_URL}/IotEnheter`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name: deviceName }),
@@ -23,7 +23,7 @@ export const addDevice = async (deviceName: string) => {
 };
 
 export const deleteDevice = async (index: number) => {
-  await fetch(`${API_BASE_URL}/devices/${index}`, { method: 'DELETE' });
+  await fetch(`${API_BASE_URL}/IotEnheter/${index}`, { method: 'DELETE' });
 };
 
 export const login = async (credentials: LoginInformation) => {
