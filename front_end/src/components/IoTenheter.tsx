@@ -2,26 +2,25 @@ import React, { useState } from 'react';
 import useDevices from '../hooks/useDevices';
 import axios from 'axios';
 import '../styles/iotenheter.css';
+import { DeviceData } from '../components/Types';
 
 const IoTenheter: React.FC = () => {
   const { devices, handleRemoveDevice } = useDevices();
-  const [formData, setFormData] = useState({
-    name: '',
-    type: '',
-    user_id: '',
-    purchased_at: '',
-    status: '',
-    device_description: '',
+  const [formData, setFormData] = useState<DeviceData>({
+    device_name: '',
+    device_status: false,
     device_version: '',
-    device_image: ''
+    device_description: '',
+    device_image: '',
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
@@ -45,40 +44,22 @@ const IoTenheter: React.FC = () => {
       <div className="input-container">
         <input
           type="text"
-          name="name"
+          name="device_name"
           placeholder="Device Name"
           onChange={handleChange}
           required
           className="input-field"
         />
         <input
-          type="text"
-          name="type"
-          placeholder="Device Type"
+          type="checkbox"
+          name="device_status"
           onChange={handleChange}
-          required
           className="input-field"
         />
         <input
           type="text"
-          name="user_id"
-          placeholder="User ID"
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-        <input
-          type="text"
-          name="purchased_at"
-          placeholder="Purchased At"
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-        <input
-          type="text"
-          name="status"
-          placeholder="Status"
+          name="device_version"
+          placeholder="Device Version"
           onChange={handleChange}
           required
           className="input-field"
@@ -86,15 +67,7 @@ const IoTenheter: React.FC = () => {
         <input
           type="text"
           name="device_description"
-          placeholder="Description"
-          onChange={handleChange}
-          required
-          className="input-field"
-        />
-        <input
-          type="text"
-          name="device_version"
-          placeholder="Device Version"
+          placeholder="Device Description"
           onChange={handleChange}
           required
           className="input-field"
