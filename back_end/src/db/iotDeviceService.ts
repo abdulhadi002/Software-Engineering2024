@@ -1,5 +1,5 @@
-import * as iotDeviceRepository from '../repository/iotDeviceRepository';
-import { IotDevice } from '../models/IotDevice';
+import * as iotDeviceRepository from './iotDeviceRepository';
+import { IotDevice } from '../db/IoTmappers';
 
 export const fetchDevices = (): IotDevice[] => {
   return iotDeviceRepository.getAllDevices().map(device => ({
@@ -13,13 +13,7 @@ export const fetchDevices = (): IotDevice[] => {
 
 export const fetchDeviceById = (id: string): IotDevice | undefined => {
   const device = iotDeviceRepository.getDeviceById(id);
-  return device ? {
-    id: device.id,
-    navn: device.navn,
-    enhetsStatus: device.enhetsStatus,
-    versjon: device.versjon,
-    beskrivelse: device.beskrivelse
-  } : undefined;
+  return device ? { id: device.id, navn: device.navn, enhetsStatus: device.enhetsStatus, versjon: device.versjon, beskrivelse: device.beskrivelse } : undefined;
 };
 
 export const addDevice = (device: IotDevice): void => {
