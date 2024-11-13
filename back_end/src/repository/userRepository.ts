@@ -1,14 +1,18 @@
-import { User } from '../models/User';
 import db from '../db/db';
+import { User } from '../models/User';
+import { mapRowToUser, mapUserToRow } from '../mappers/UserMapper';
 
+export const findUserByUsername = (username: string): User | undefined => {
+  const row = db
+    .prepare('SELECT * FROM users WHERE username = ?')
+    .get(username);
 
-export const findUserByCredentials = (username: string, password: string): User | undefined => {
-  const result = db
-    .prepare('SELECT * FROM users WHERE username = ? AND password = ?')
-    .get(username, password);
-  return result as User | undefined;
+  return row ? mapRowToUser(row) : undefined;
 };
 
-export const registerUser = (username: string, password: string): void => {
-  db.prepare('INSERT INTO users (username, password) VALUES (?, ?)').run(username, password);
+export const createUser = (user: User): void => {
+  db.prepare('INSERT INTO users (username, password) VALUES (?, ?)').run(
+    user.username,
+    user.password
+  );
 };
