@@ -1,65 +1,62 @@
-import express from 'express';
 import * as iotDeviceService from '../service/iotDeviceService';
 import { IotDevice } from '../models/IotDevice';
+import { Context } from 'hono';
 
-const router = express.Router();
-
-router.get('/', (req, res) => {
+export const getAllDevices = (c: Context) => {
   try {
     const devices = iotDeviceService.fetchDevices();
-    res.json(devices);
+    return c.json(devices);
   } catch (error) {
-    console.error('Error fetching devices:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Internal Server Error. Unable to fetch devices.' });
+    console.error('Error fetching devices:', error);
+    return c.json({ error: 'Internal Server Error. Unable to fetch devices.' }, 500);
   }
-});
+};
 
-router.get('/:id', (req, res) => {
+export const getDeviceById = (c: Context) => {
   try {
-    const device = iotDeviceService.fetchDeviceById(req.params.id);
+    const id = c.req.param('id');
+    const device = iotDeviceService.fetchDeviceById(id);
     if (device) {
-      res.json(device);
+      return c.json(device);
     } else {
-      res.status(404).json({ error: 'Device not found' });
+      return c.json({ error: 'Device not found' }, 404);
     }
   } catch (error) {
-    console.error('Error fetching device:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Internal Server Error. Unable to fetch device.' });
+    console.error('Error fetching device:', error);
+    return c.json({ error: 'Internal Server Error. Unable to fetch device.' }, 500);
   }
-});
+};
 
-router.post('/', (req, res) => {
+export const createDevice = async (c: Context) => {
   try {
-    const newDevice: IotDevice = req.body;
+    const newDevice: IotDevice = await c.req.json();
     iotDeviceService.addDevice(newDevice);
-    res.status(201).json(newDevice);
+    return c.json(newDevice, 201);
   } catch (error) {
-    console.error('Error creating device:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Internal Server Error. Unable to create device.' });
+    console.error('Error creating device:', error);
+    return c.json({ error: 'Internal Server Error. Unable to create device.' }, 500);
   }
-});
+};
 
-router.put('/:id', (req, res) => {
+export const updateDevice = async (c: Context) => {
   try {
-    const id = req.params.id;
-    const updatedDevice: Partial<IotDevice> = req.body;
+    const id = c.req.param('id');
+    const updatedDevice: Partial<IotDevice> = await c.req.json();
     iotDeviceService.editDevice(id, updatedDevice);
-    res.json({ message: 'Device updated successfully' });
+    return c.json({ message: 'Device updated successfully' });
   } catch (error) {
-    console.error('Error updating device:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Internal Server Error. Unable to update device.' });
+    console.error('Error updating device:', error);
+    return c.json({ error: 'Internal Server Error. Unable to update device.' }, 500);
   }
-});
+};
 
-router.delete('/:id', (req, res) => {
+export const deleteDevice = (c: Context) => {
   try {
-    const id = req.params.id;
+    const id = c.req.param('id');
     iotDeviceService.removeDevice(id);
-    res.status(204).send();
+    return c.text('', 204);
   } catch (error) {
-    console.error('Error deleting device:', error instanceof Error ? error.message : error);
-    res.status(500).json({ error: 'Internal Server Error. Unable to delete device.' });
+    console.error('Error deleting device:', error);
+    return c.json({ error: 'Internal Server Error. Unable to delete device.' }, 500);
   }
-});
-
-export default router;
+};
