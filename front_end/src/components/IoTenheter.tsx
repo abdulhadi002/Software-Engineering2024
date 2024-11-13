@@ -50,12 +50,16 @@ const IoTenheter: React.FC = () => {
           required
           className="input-field"
         />
-        <input
-          type="checkbox"
-          name="device_status"
-          onChange={handleChange}
-          className="input-field"
-        />
+        <div className="checkbox-container">
+          <input
+            type="checkbox"
+            name="device_status"
+            onChange={handleChange}
+            className="input-field"
+          />
+          <label>Status</label>
+        </div>
+
         <input
           type="text"
           name="device_version"
