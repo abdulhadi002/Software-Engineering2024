@@ -1,4 +1,4 @@
-import { findUserByCredentials } from './userRepository';
+import { findUserByCredentials } from '../repository/userRepository';
 
 export const authenticateUser = (username: string, password: string) => {
   const user = findUserByCredentials(username, password);

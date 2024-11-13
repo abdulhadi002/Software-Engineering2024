@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { registerUser, findUserByCredentials } from '../db/userRepository';
+import { registerUser, findUserByCredentials } from '../repository/userRepository';
 import { cors } from 'hono/cors';
 
 const userRoutes = new Hono();
