@@ -1,6 +1,6 @@
 import { LoginInformation } from "./src/components/Types";
 
-const API_BASE_URL = 'http://localhost:6969';
+const API_BASE_URL = 'http://localhost:6969/api';
 
 export const fetchDevices = async () => {
   const response = await fetch(`${API_BASE_URL}/IotEnheter`);
