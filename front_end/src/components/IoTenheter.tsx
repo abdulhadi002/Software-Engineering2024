@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import useDevices from '../hooks/useDevices';
 import axios from 'axios';
 import '../styles/iotenheter.css';
-import { DeviceData } from '../components/Types';
+import { DeviceData } from './Types';
 
 const IoTenheter: React.FC = () => {
   const { devices, handleRemoveDevice } = useDevices();
@@ -11,17 +11,27 @@ const IoTenheter: React.FC = () => {
     device_status: false,
     device_version: '',
     device_description: '',
-    device_image: '',
+    device_image: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFormData((prevData) => ({
+        ...prevData,
+        device_image: file.name
+      }));
+    }
   };
 
   const handleAddDevice = async (e: React.FormEvent) => {
@@ -50,16 +60,18 @@ const IoTenheter: React.FC = () => {
           required
           className="input-field"
         />
-        <div className="checkbox-container">
-          <input
-            type="checkbox"
-            name="device_status"
-            onChange={handleChange}
-            className="input-field"
-          />
-          <label>Status</label>
-        </div>
-
+        <input
+          type="checkbox"
+          name="device_status"
+          onChange={(e) =>
+            setFormData((prevData) => ({
+              ...prevData,
+              device_status: e.target.checked
+            }))
+          }
+          className="input-checkbox"
+        />
+        <label>Status</label>
         <input
           type="text"
           name="device_version"
@@ -77,14 +89,15 @@ const IoTenheter: React.FC = () => {
           className="input-field"
         />
         <input
-          type="text"
+          type="file"
           name="device_image"
-          placeholder="Device Image URL"
-          onChange={handleChange}
+          onChange={handleImageChange}
           required
           className="input-field"
         />
-        <button onClick={handleAddDevice} className="add-button" disabled={loading}>Legg til</button>
+        <button onClick={handleAddDevice} className="add-button" disabled={loading}>
+          Legg til
+        </button>
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
       </div>
@@ -92,8 +105,10 @@ const IoTenheter: React.FC = () => {
       {devices.length > 0 ? (
         devices.map((device, index) => (
           <div key={index} className="enhets-element">
-            <span>{device}</span>
-            <button onClick={() => handleRemoveDevice(index)} className="delete-button">Slett</button>
+            <span>{device.length}</span>
+            <button onClick={() => handleRemoveDevice(index)} className="delete-button">
+              Slett
+            </button>
           </div>
         ))
       ) : (
