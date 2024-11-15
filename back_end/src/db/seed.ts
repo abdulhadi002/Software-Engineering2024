@@ -1,13 +1,21 @@
-import { join } from 'path';
-import { readFile } from 'fs/promises';
-import type { DB } from './db';
+import { join } from "path";
+import { readFile } from "fs/promises";
+import type { DB } from "./db";
 
 export const seed = async (db: DB) => {
-  const path = join(__dirname, 'data.json');
-  const file = await readFile(path, 'utf-8');
+  const path = join(__dirname, "data.json");
+  const file = await readFile(path, "utf-8");
   const { users, devices } = JSON.parse(file) as {
     users: { username: string; password: string }[];
-    devices: { id: string; name: string; type: string; user_id: string; purchased_at: string; status: string }[];
+    devices: {
+      id: number;
+      device_name: string;
+      device_status: boolean;
+      device_version: string;
+      device_description: string;
+      device_image: string;
+      user_id: number;
+    }[];
   };
 
   const insertUser = db.prepare(`
@@ -17,8 +25,8 @@ export const seed = async (db: DB) => {
   `);
 
   const insertDevice = db.prepare(`
-    INSERT INTO devices (id, name, type, user_id, purchased_at, status) 
-    VALUES (?, ?, ?, ?, ?, ?)
+    INSERT INTO devices (id, device_name, device_status, device_version, device_description, device_image, user_id) 
+    VALUES (?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT (id) DO NOTHING
   `);
 
@@ -28,7 +36,15 @@ export const seed = async (db: DB) => {
     }
 
     for (const device of devices) {
-      insertDevice.run(device.id, device.name, device.type, device.user_id, device.purchased_at, device.status);
+      insertDevice.run(
+        device.id,
+        device.device_name,
+        device.device_status,
+        device.device_version,
+        device.device_description,
+        device.device_image,
+        device.user_id
+      );
     }
   })();
 };

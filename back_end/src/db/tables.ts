@@ -10,11 +10,12 @@ export const createTables = (db: DB) => {
 
     CREATE TABLE IF NOT EXISTS devices (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      type TEXT NOT NULL,
+      device_name TEXT NOT NULL,
+      device_status BOOLEAN NOT NULL,
+      device_version TEXT NOT NULL,
+      device_description TEXT NOT NULL,
+      device_image TEXT NOT NULL,
       user_id INTEGER NOT NULL,
-      purchased_at TEXT,
-      status TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     );
   `);

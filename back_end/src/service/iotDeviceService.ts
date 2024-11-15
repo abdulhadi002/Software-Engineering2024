@@ -1,35 +1,66 @@
 import * as iotDeviceRepository from '../repository/iotDeviceRepository';
-import { IotDevice } from '../models/IotDevice';
+import * as authService from '../service/authService';
+import { DbIotDevice, IotDevice } from '../models/IotDevice';
 
 export const fetchDevices = (): IotDevice[] => {
   return iotDeviceRepository.getAllDevices().map(device => ({
     id: device.id,
-    navn: device.navn,
-    enhetsStatus: device.enhetsStatus,
-    versjon: device.versjon,
-    beskrivelse: device.beskrivelse
+    device_name: device.device_name,
+    device_status: device.device_status,
+    device_version: device.device_version,
+    device_description: device.device_description,
+    device_image: device.device_image
   }));
 };
 
-export const fetchDeviceById = (id: string): IotDevice | undefined => {
-  const device = iotDeviceRepository.getDeviceById(id);
-  return device ? {
+export const fetchDevicesByUsername = (username: string): IotDevice[] => {
+  const user = authService.getUserByUsername(username);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return iotDeviceRepository.getDevicesByUserId(user.id).map(device => ({
     id: device.id,
-    navn: device.navn,
-    enhetsStatus: device.enhetsStatus,
-    versjon: device.versjon,
-    beskrivelse: device.beskrivelse
-  } : undefined;
+    device_name: device.device_name,
+    device_status: device.device_status,
+    device_version: device.device_version,
+    device_description: device.device_description,
+    device_image: device.device_image
+  }));
 };
 
-export const addDevice = (device: IotDevice): void => {
-  iotDeviceRepository.createDevice(device);
+export const fetchDeviceById = (id: number): IotDevice | undefined => {
+  const device = iotDeviceRepository.getDeviceById(id);
+  return device
+    ? {
+        id: device.id,
+        device_name: device.device_name,
+        device_status: device.device_status,
+        device_version: device.device_version,
+        device_description: device.device_description,
+        device_image: device.device_image
+      }
+    : undefined;
 };
 
-export const editDevice = (id: string, device: Partial<IotDevice>): void => {
-  iotDeviceRepository.updateDevice(id, device);
+export const addDevice = (device: IotDevice, username: string): void => {
+  const user = authService.getUserByUsername(username);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  const dbDevice: DbIotDevice = {
+    ...device,
+    user_id: user.id
+  };
+  iotDeviceRepository.createDevice(dbDevice);
 };
 
-export const removeDevice = (id: string): void => {
+export const editDevice = (id: number, device: Partial<IotDevice>): void => {
+  const dbDevice: Partial<DbIotDevice> = {
+    ...device
+  };
+  iotDeviceRepository.updateDevice(id, dbDevice);
+};
+
+export const removeDevice = (id: number): void => {
   iotDeviceRepository.deleteDevice(id);
 };

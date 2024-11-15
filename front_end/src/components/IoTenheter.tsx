@@ -5,7 +5,7 @@ import '../styles/iotenheter.css';
 import { DeviceData } from './Types';
 
 const IoTenheter: React.FC = () => {
-  const { devices, handleRemoveDevice } = useDevices();
+  const { devices = [], handleRemoveDevice, loading, error } = useDevices(); // Default to an empty array
   const [formData, setFormData] = useState<DeviceData>({
     device_name: '',
     device_status: false,
@@ -13,8 +13,8 @@ const IoTenheter: React.FC = () => {
     device_description: '',
     device_image: ''
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,15 +36,22 @@ const IoTenheter: React.FC = () => {
 
   const handleAddDevice = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
+    setAdding(true);
+    setAddError(null);
     try {
-      const response = await axios.post('/devices', formData);
+      const response = await axios.post('/IotEnheter', formData);
       console.log('Device added:', response.data);
+      setFormData({
+        device_name: '',
+        device_status: false,
+        device_version: '',
+        device_description: '',
+        device_image: ''
+      });
     } catch (err) {
-      setError('Error adding device');
+      setAddError('Error adding device');
     } finally {
-      setLoading(false);
+      setAdding(false);
     }
   };
 
@@ -56,6 +63,7 @@ const IoTenheter: React.FC = () => {
           type="text"
           name="device_name"
           placeholder="Device Name"
+          value={formData.device_name}
           onChange={handleChange}
           required
           className="input-field"
@@ -63,6 +71,7 @@ const IoTenheter: React.FC = () => {
         <input
           type="checkbox"
           name="device_status"
+          checked={formData.device_status}
           onChange={(e) =>
             setFormData((prevData) => ({
               ...prevData,
@@ -76,6 +85,7 @@ const IoTenheter: React.FC = () => {
           type="text"
           name="device_version"
           placeholder="Device Version"
+          value={formData.device_version}
           onChange={handleChange}
           required
           className="input-field"
@@ -84,6 +94,7 @@ const IoTenheter: React.FC = () => {
           type="text"
           name="device_description"
           placeholder="Device Description"
+          value={formData.device_description}
           onChange={handleChange}
           required
           className="input-field"
@@ -95,17 +106,21 @@ const IoTenheter: React.FC = () => {
           required
           className="input-field"
         />
-        <button onClick={handleAddDevice} className="add-button" disabled={loading}>
+        <button onClick={handleAddDevice} className="add-button" disabled={adding}>
           Legg til
         </button>
-        {loading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
+        {adding && <p>Adding...</p>}
+        {addError && <p>{addError}</p>}
       </div>
 
-      {devices.length > 0 ? (
+      {loading ? (
+        <p>Loading devices...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : devices.length > 0 ? (
         devices.map((device, index) => (
-          <div key={index} className="enhets-element">
-            <span>{device.length}</span>
+          <div key={device.id || index} className="enhets-element">
+            <span>{device.device_name}</span>
             <button onClick={() => handleRemoveDevice(index)} className="delete-button">
               Slett
             </button>

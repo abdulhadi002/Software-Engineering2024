@@ -1,55 +1,41 @@
+// Example structure of useDevices hook
 import { useState, useEffect } from 'react';
-import { fetchDevices, addDevice as addDeviceApi, deleteDevice as deleteDeviceApi } from '../../api';
+import axios from 'axios';
+import { DeviceData } from '../components/Types';
 
 const useDevices = () => {
-  const [devices, setDevices] = useState<string[]>([]);
-  const [newDevice, setNewDevice] = useState<string>("");
+  const [devices, setDevices] = useState<DeviceData[]>([]); // Initialize as an empty array
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const getDevices = async () => {
+    const fetchDevices = async () => {
       try {
-        const data = await fetchDevices();
-        if (Array.isArray(data)) {
-          setDevices(data.map((device: any) => device.name));
-        } else {
-          console.error('Expected an array but got:', data);
-        }
-      } catch (error) {
-        console.error('Error fetching devices:', error);
+        const response = await axios.get('/IotEnheter');
+        setDevices(response.data || []); // Set devices to an empty array if response.data is undefined
+      } catch (err) {
+        setError('Failed to fetch devices');
+      } finally {
+        setLoading(false);
       }
     };
 
-    getDevices();
+    fetchDevices();
   }, []);
 
-  const handleAddDevice = async () => {
-    if (newDevice.trim() !== "") {
+  const handleRemoveDevice = async (index: number) => {
+    const deviceId = devices[index]?.id; // Get the device ID from the devices array
+    if (deviceId) {
       try {
-        const data = await addDeviceApi(newDevice);
-        setDevices((prevDevices) => [...prevDevices, data.name]);
-        setNewDevice("");
-      } catch (error) {
-        console.error('Error adding device:', error);
+        await axios.delete(`/IotEnheter/${deviceId}`);
+        setDevices(devices.filter((_, i) => i !== index));
+      } catch (err) {
+        setError('Failed to remove device');
       }
     }
   };
 
-  const handleRemoveDevice = async (index: number) => {
-    try {
-      await deleteDeviceApi(index);
-      setDevices((prevDevices) => prevDevices.filter((_, i) => i !== index));
-    } catch (error) {
-      console.error('Error deleting device:', error);
-    }
-  };
-
-  return {
-    devices,
-    newDevice,
-    setNewDevice,
-    handleAddDevice,
-    handleRemoveDevice,
-  };
+  return { devices, handleRemoveDevice, loading, error };
 };
 
 export default useDevices;
