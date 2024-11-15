@@ -23,7 +23,6 @@ export type LoginProps = {
 }
 
 export type ProfileData = {
-  username: string;
-  password: string;
-  membership: 'Basic' | 'Premium';
+  name: string;
+  image: string;
 };
