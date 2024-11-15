@@ -34,6 +34,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
         setIsRegistering(false);
       } else {
         const userData = await login(credentials);
+        localStorage.setItem('username', credentials.username);
         onLogin(userData);
         navigate('/IotEnheter');
       }

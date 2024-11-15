@@ -1,15 +1,18 @@
 export type DbIotDevice = {
-    id: string;
-    navn: string;
-    enhetsStatus: string;
-    versjon: string;
-    beskrivelse: string;
-  }
-  
-  export type IotDevice = {
-    id: string;
-    navn: string;
-    enhetsStatus: string;
-    versjon: string;
-    beskrivelse: string;
-  }
+  id: number;
+  device_name: string;
+  device_status: boolean;
+  device_version: string;
+  device_description: string;
+  device_image: string;
+  user_id: string;
+};
+
+export type IotDevice = {
+  id: number;
+  device_name: string;
+  device_status: boolean;
+  device_version: string;
+  device_description: string;
+  device_image: string;
+};

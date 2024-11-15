@@ -11,10 +11,17 @@ export const fetchDevices = async () => {
 };
 
 export const addDevice = async (deviceName: string) => {
+  const username = localStorage.getItem('username');
+  if (!username) {
+    throw new Error('You must be logged in to add a device');
+  }
   const response = await fetch(`${API_BASE_URL}/IotEnheter`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: deviceName }),
+    headers: { 
+      'Content-Type': 'application/json', 
+      'username': username 
+    },
+    body: JSON.stringify({ device_name: deviceName }),
   });
   if (!response.ok) {
     throw new Error('Error adding device');
@@ -32,11 +39,12 @@ export const login = async (credentials: LoginInformation) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  
   if (!response.ok) {
     throw new Error('Login failed. Check your credentials.');
   }
-  return response.json();
+  const data = await response.json();
+  localStorage.setItem('username', credentials.username);
+  return data;
 };
 
 export const register = async (credentials: LoginInformation) => {
@@ -45,7 +53,6 @@ export const register = async (credentials: LoginInformation) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
   });
-  
   if (!response.ok) {
     throw new Error('Registration failed. Username may be taken.');
   }

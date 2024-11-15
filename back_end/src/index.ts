@@ -20,11 +20,12 @@ app.post('/login', authController.login);
 app.post('/register', authController.register);
 
 
-app.get('/IotEnheter', iotDeviceController.getAllDevices);
-app.get('/IotEnheter/:id', iotDeviceController.getDeviceById);
-app.post('/IotEnheter', iotDeviceController.createDevice);
-app.put('/IotEnheter/:id', iotDeviceController.updateDevice);
-app.delete('/IotEnheter/:id', iotDeviceController.deleteDevice);
+app.get('/iot-devices', iotDeviceController.getAllDevices);
+app.get('/iot-devices/user', iotDeviceController.getDevicesByUserId);
+app.get('/iot-devices/:id', iotDeviceController.getDeviceById);
+app.post('/iot-devices', iotDeviceController.createDevice);
+app.put('/iot-devices/:id', iotDeviceController.updateDevice);
+app.delete('/iot-devices/:id', iotDeviceController.deleteDevice);
 
 
 app.get('/users', userController.getAllUsers);
