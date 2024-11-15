@@ -1,7 +1,6 @@
 import { findUserByUsername, createUser } from '../repository/userRepository';
 import { User } from '../models/User';
 
-
 export const authenticateUser = (username: string, password: string) => {
   const user = findUserByUsername(username);
 
@@ -23,10 +22,18 @@ export const registerUser = (username: string, password: string) => {
   const newUser: User = {
     id: '',
     username,
-    password
+    password,
   };
 
   createUser(newUser);
 
   return { success: true, user: newUser };
+};
+
+export const getUserByUsername = (username: string): User | null => {
+  const user = findUserByUsername(username);
+  if (!user) {
+    return null;
+  }
+  return user;
 };

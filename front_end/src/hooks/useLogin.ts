@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { LoginInformation } from '../components/Types';
 
-const useLogin = (checkUserCredentials: (credentials: LoginInformation) => Promise<boolean>, registerUser: (credentials: LoginInformation) => Promise<void>) => {
+const useLogin = (
+  checkUserCredentials: (credentials: LoginInformation) => Promise<boolean>,
+  registerUser: (credentials: LoginInformation) => Promise<void>
+) => {
   const [credentials, setCredentials] = useState<LoginInformation>({
     username: '',
     password: ''
   });
   const [isRegistering, setIsRegistering] = useState(false);
   const [message, setMessage] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(
+    localStorage.getItem('username')
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -32,6 +38,8 @@ const useLogin = (checkUserCredentials: (credentials: LoginInformation) => Promi
         const isValidUser = await checkUserCredentials(credentials);
         if (isValidUser) {
           setMessage('Innlogging vellykket!');
+          setLoggedInUser(credentials.username);
+          localStorage.setItem('username', credentials.username);
         } else {
           setMessage('Ugyldig brukernavn eller passord.');
         }
@@ -41,6 +49,12 @@ const useLogin = (checkUserCredentials: (credentials: LoginInformation) => Promi
     }
   };
 
+  const logout = () => {
+    setLoggedInUser(null);
+    localStorage.removeItem('username');
+    setMessage('Du har logget ut.');
+  };
+
   return {
     credentials,
     handleChange,
@@ -48,6 +62,8 @@ const useLogin = (checkUserCredentials: (credentials: LoginInformation) => Promi
     isRegistering,
     setIsRegistering,
     message,
+    loggedInUser,
+    logout,
   };
 };
 

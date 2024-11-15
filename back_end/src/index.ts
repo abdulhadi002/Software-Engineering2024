@@ -21,6 +21,7 @@ app.post('/register', authController.register);
 
 
 app.get('/IotEnheter', iotDeviceController.getAllDevices);
+app.get('/IotEnheter/user', iotDeviceController.getDevicesByUserId);
 app.get('/IotEnheter/:id', iotDeviceController.getDeviceById);
 app.post('/IotEnheter', iotDeviceController.createDevice);
 app.put('/IotEnheter/:id', iotDeviceController.updateDevice);
