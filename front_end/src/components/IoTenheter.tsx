@@ -39,7 +39,7 @@ const IoTenheter: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.post('/devices', formData);
+      const response = await axios.post('/IotEnheter', formData);
       console.log('Device added:', response.data);
     } catch (err) {
       setError('Error adding device');
