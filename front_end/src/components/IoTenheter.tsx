@@ -1,4 +1,3 @@
-// components/IoTenheter.tsx
 import React from 'react';
 import { DeviceData } from './Types';
 
@@ -15,20 +14,15 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
     device_version: '',
     device_description: '',
     device_image: '',
-    user_id: 1, // Set this dynamically based on the authenticated user if applicable
+    user_id: 1,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
-
-    // Initialize a variable to hold the new value
     let newValue: string | boolean = value;
-
     if (type === 'checkbox') {
-      // Cast e.target to HTMLInputElement to access 'checked'
       newValue = (e.target as HTMLInputElement).checked;
     }
-
     setFormData((prevData) => ({
       ...prevData,
       [name]: newValue,
@@ -37,8 +31,9 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Submitting form data:', formData); // Debug log
-    onAddDevice(formData); // Pass formData to the handler
+    if (onAddDevice) {
+      onAddDevice(formData); // Sørg for at onAddDevice blir kalt
+    }
     setFormData({
       device_name: '',
       device_status: false,
@@ -83,7 +78,7 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
             if (e.target.files && e.target.files[0]) {
               setFormData({
                 ...formData,
-                device_image: e.target.files[0].name, // Adjust if handling actual uploads
+                device_image: e.target.files[0].name,
               });
             }
           }}
@@ -100,7 +95,7 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
         </label>
         <button type="submit">Legg til</button>
       </form>
-      {Array.isArray(devices) && devices.length > 0 ? (
+      {devices && devices.length > 0 ? (
         devices.map((device) => (
           <div key={device.id}>
             <span>{device.device_name}</span>
