@@ -1,0 +1,39 @@
+/* Profile.css */
+.profile-container {
+    width: 300px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #e6e6e6; /* Lysere bakgrunn */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .profile-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .profile-item {
+    margin-bottom: 15px;
+  }
+  
+  .profile-label {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #333; /* Mørkere bakgrunn for label */
+    padding: 10px;
+    border-radius: 8px;
+    text-align: left;
+  }
+  
+  .profile-value {
+    font-size: 16px;
+    color: #333;
+    margin-top: 5px;
+  }
+  

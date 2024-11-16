@@ -6,7 +6,7 @@ import { Context } from 'hono';
 export const getAllUsers = (c: Context) => {
   try {
     const stmt = db.prepare('SELECT * FROM users');
-    const rows = stmt.all() as { id: number; username: string; password: string }[];
+    const rows = stmt.all() as { id: string; username: string; password: string }[];
     const users = rows.map(mapUserToRow);
     return c.json(users);
   } catch (error) {
@@ -17,10 +17,19 @@ export const getAllUsers = (c: Context) => {
 
 export const createUser = async (c: Context) => {
   try {
+    console.log('Creating a new user...');
     const user: User = await c.req.json();
-    const stmt = db.prepare('INSERT INTO users (id, username, password) VALUES (?, ?, ?)');
-    const row = mapUserToRow(user);
-    stmt.run(row.id, row.username, row.password);
+    const existingUser = db.prepare('SELECT * FROM users WHERE username = ?').get(user.username);
+
+    if (existingUser) {
+      console.error(`User ${user.username} already exists`);
+      return c.json({ error: 'Username already exists' }, 400);
+    }
+
+    const stmt = db.prepare('INSERT INTO users (username, password, image, membership) VALUES (?, ?, ?, ?)');
+    stmt.run(user.username, user.password, user.image || null, user.membership || null);
+
+    console.log(`User ${user.username} created successfully`);
     return c.json(user, 201);
   } catch (error) {
     console.error('Error creating user:', error);
