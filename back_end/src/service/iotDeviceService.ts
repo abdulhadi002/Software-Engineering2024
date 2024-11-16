@@ -1,35 +1,25 @@
 import * as iotDeviceRepository from '../repository/iotDeviceRepository';
 import { IotDevice } from '../models/IotDevice';
+import { toIotDevice } from '../mappers/IoTmappers';
 
-export const fetchDevices = (): IotDevice[] => {
-  return iotDeviceRepository.getAllDevices().map(device => ({
-    id: device.id,
-    navn: device.navn,
-    enhetsStatus: device.enhetsStatus,
-    versjon: device.versjon,
-    beskrivelse: device.beskrivelse
-  }));
+export const fetchDevicesByUserId = (userId: string): IotDevice[] => {
+  const devices = iotDeviceRepository.getDevicesByUserId(userId);
+  return devices.map(toIotDevice);
 };
 
-export const fetchDeviceById = (id: string): IotDevice | undefined => {
-  const device = iotDeviceRepository.getDeviceById(id);
-  return device ? {
-    id: device.id,
-    navn: device.navn,
-    enhetsStatus: device.enhetsStatus,
-    versjon: device.versjon,
-    beskrivelse: device.beskrivelse
-  } : undefined;
+export const fetchDeviceByIdAndUserId = (id: string, userId: string): IotDevice | undefined => {
+  const device = iotDeviceRepository.getDeviceByIdAndUserId(id, userId);
+  return device ? toIotDevice(device) : undefined;
 };
 
 export const addDevice = (device: IotDevice): void => {
   iotDeviceRepository.createDevice(device);
 };
 
-export const editDevice = (id: string, device: Partial<IotDevice>): void => {
-  iotDeviceRepository.updateDevice(id, device);
+export const editDevice = (id: string, userId: string, device: Partial<IotDevice>): boolean => {
+  return iotDeviceRepository.updateDevice(id, userId, device);
 };
 
-export const removeDevice = (id: string): void => {
-  iotDeviceRepository.deleteDevice(id);
+export const removeDevice = (id: string, userId: string): boolean => {
+  return iotDeviceRepository.deleteDevice(id, userId);
 };

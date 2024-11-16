@@ -6,7 +6,7 @@ import { Context } from 'hono';
 export const getAllUsers = (c: Context) => {
   try {
     const stmt = db.prepare('SELECT * FROM users');
-    const rows = stmt.all() as { id: string; username: string; password: string }[];
+    const rows = stmt.all() as { id: number; username: string; password: string }[];
     const users = rows.map(mapUserToRow);
     return c.json(users);
   } catch (error) {

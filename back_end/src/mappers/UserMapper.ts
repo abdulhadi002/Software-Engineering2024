@@ -8,7 +8,7 @@ export const mapRowToUser = (row: any): User => {
   };
 };
 
-export const mapUserToRow = (user: User): { id: string; username: string; password: string } => {
+export const mapUserToRow = (user: User): { id: number; username: string; password: string } => {
   return {
     id: user.id,
     username: user.username,

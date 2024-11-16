@@ -1,8 +1,7 @@
 import { findUserByUsername, createUser } from '../repository/userRepository';
-import { User } from '../models/User';
+import { User, UserWithoutPassword, AuthResult } from '../models/User';
 
-
-export const authenticateUser = (username: string, password: string) => {
+export const authenticateUser = (username: string, password: string): AuthResult => {
   const user = findUserByUsername(username);
 
   if (user && user.password === password) {
@@ -13,7 +12,7 @@ export const authenticateUser = (username: string, password: string) => {
   }
 };
 
-export const registerUser = (username: string, password: string) => {
+export const registerUser = (username: string, password: string): AuthResult => {
   const existingUser = findUserByUsername(username);
 
   if (existingUser) {
@@ -21,12 +20,14 @@ export const registerUser = (username: string, password: string) => {
   }
 
   const newUser: User = {
-    id: '',
+    id: 0,
     username,
-    password
+    password,
   };
 
-  createUser(newUser);
+  const createdUser = createUser(newUser);
 
-  return { success: true, user: newUser };
+  const { password: _, ...userWithoutPassword } = createdUser;
+
+  return { success: true, user: userWithoutPassword };
 };

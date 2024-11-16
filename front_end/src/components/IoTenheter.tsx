@@ -1,118 +1,114 @@
-import React, { useState } from 'react';
-import useDevices from '../hooks/useDevices';
-import axios from 'axios';
-import '../styles/iotenheter.css';
+// components/IoTenheter.tsx
+import React from 'react';
 import { DeviceData } from './Types';
 
-const IoTenheter: React.FC = () => {
-  const { devices, handleRemoveDevice } = useDevices();
-  const [formData, setFormData] = useState<DeviceData>({
+type IoTenheterProps = {
+  devices: DeviceData[];
+  onAddDevice: (newDevice: Omit<DeviceData, 'id'>) => void;
+  onDeleteDevice: (deviceId: number) => void;
+};
+
+const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteDevice }) => {
+  const [formData, setFormData] = React.useState<Omit<DeviceData, 'id'>>({
     device_name: '',
     device_status: false,
     device_version: '',
     device_description: '',
-    device_image: ''
+    device_image: '',
+    user_id: 1, // Set this dynamically based on the authenticated user if applicable
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+
+    // Initialize a variable to hold the new value
+    let newValue: string | boolean = value;
+
+    if (type === 'checkbox') {
+      // Cast e.target to HTMLInputElement to access 'checked'
+      newValue = (e.target as HTMLInputElement).checked;
+    }
+
     setFormData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: newValue,
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFormData((prevData) => ({
-        ...prevData,
-        device_image: file.name
-      }));
-    }
-  };
-
-  const handleAddDevice = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.post('/devices', formData);
-      console.log('Device added:', response.data);
-    } catch (err) {
-      setError('Error adding device');
-    } finally {
-      setLoading(false);
-    }
+    console.log('Submitting form data:', formData); // Debug log
+    onAddDevice(formData); // Pass formData to the handler
+    setFormData({
+      device_name: '',
+      device_status: false,
+      device_version: '',
+      device_description: '',
+      device_image: '',
+      user_id: 1,
+    });
   };
 
   return (
     <div className="enhetsliste">
       <h2>Enhetsliste</h2>
-      <div className="input-container">
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
           name="device_name"
           placeholder="Device Name"
+          value={formData.device_name}
           onChange={handleChange}
           required
-          className="input-field"
         />
-        <input
-          type="checkbox"
-          name="device_status"
-          onChange={(e) =>
-            setFormData((prevData) => ({
-              ...prevData,
-              device_status: e.target.checked
-            }))
-          }
-          className="input-checkbox"
-        />
-        <label>Status</label>
         <input
           type="text"
           name="device_version"
           placeholder="Device Version"
+          value={formData.device_version}
           onChange={handleChange}
           required
-          className="input-field"
         />
-        <input
-          type="text"
+        <textarea
           name="device_description"
           placeholder="Device Description"
+          value={formData.device_description}
           onChange={handleChange}
           required
-          className="input-field"
         />
         <input
           type="file"
           name="device_image"
-          onChange={handleImageChange}
+          onChange={(e) => {
+            if (e.target.files && e.target.files[0]) {
+              setFormData({
+                ...formData,
+                device_image: e.target.files[0].name, // Adjust if handling actual uploads
+              });
+            }
+          }}
           required
-          className="input-field"
         />
-        <button onClick={handleAddDevice} className="add-button" disabled={loading}>
-          Legg til
-        </button>
-        {loading && <p>Loading...</p>}
-        {error && <p>{error}</p>}
-      </div>
-
-      {devices.length > 0 ? (
-        devices.map((device, index) => (
-          <div key={index} className="enhets-element">
-            <span>{device.length}</span>
-            <button onClick={() => handleRemoveDevice(index)} className="delete-button">
-              Slett
-            </button>
+        <label>
+          Status:
+          <input
+            type="checkbox"
+            name="device_status"
+            checked={formData.device_status}
+            onChange={handleChange}
+          />
+        </label>
+        <button type="submit">Legg til</button>
+      </form>
+      {Array.isArray(devices) && devices.length > 0 ? (
+        devices.map((device) => (
+          <div key={device.id}>
+            <span>{device.device_name}</span>
+            <button onClick={() => onDeleteDevice(device.id)}>Slett</button>
           </div>
         ))
       ) : (
-        <p>Ingen enheter lagt til ennå.</p>
+        <p>No devices available.</p>
       )}
     </div>
   );
