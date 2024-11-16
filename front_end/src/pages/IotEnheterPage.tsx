@@ -1,8 +1,6 @@
-// pages/IotEnheterPage.tsx
 import React from 'react';
 import useDevices from '../../src/hooks/useDevices';
 import IoTenheter from '../components/IoTenheter';
-import { DeviceData } from '../components/Types';
 
 const IotEnheterPage: React.FC = () => {
   const {
@@ -21,8 +19,8 @@ const IotEnheterPage: React.FC = () => {
         <p>{error}</p>
       ) : (
         <IoTenheter
-          devices={devices}
-          onAddDevice={handleAddDevice} // Pass directly
+          devices={devices || []}
+          onAddDevice={handleAddDevice}
           onDeleteDevice={handleRemoveDevice}
         />
       )}
