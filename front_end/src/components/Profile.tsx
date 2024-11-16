@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/Profile.css';
-import { ProfileData } from '../components/Types';
+
+// Definerer en korrekt `ProfileData`-type med de nødvendige egenskapene
+interface ProfileData {
+  username: string;
+  membership: string;
+}
 
 const Profile: React.FC = () => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
@@ -28,21 +33,21 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-section">
-    <h2>Profil</h2>
-    <div className="profile-info">
+      <h2>Profil</h2>
+      <div className="profile-info">
         <div className="info-item">
-        <span className="label">Brukernavn:</span>
-        <span className="value">{profileData.username}</span>
+          <span className="label">Brukernavn:</span>
+          <span className="value">{profileData.username}</span>
         </div>
         <div className="info-item">
-        <span className="label">Passord:</span>
-        <span className="value">******</span>
+          <span className="label">Passord:</span>
+          <span className="value">******</span>
         </div>
         <div className="info-item">
-        <span className="label">Medlemskap:</span>
-        <span className="value">{profileData.membership}</span>
+          <span className="label">Medlemskap:</span>
+          <span className="value">{profileData.membership}</span>
         </div>
-    </div>
+      </div>
     </div>
   );
 };
