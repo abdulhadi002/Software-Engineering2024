@@ -43,14 +43,19 @@ export const getDeviceById = (c: Context) => {
 export const createDevice = async (c: Context) => {
   try {
     const userId = getCookie(c, 'user_id');
-
     if (!userId) {
       return c.json({ error: 'Unauthorized' }, 401);
     }
 
     const newDeviceData = await c.req.json();
     const newDevice: IotDevice = { ...newDeviceData, user_id: userId };
-    iotDeviceService.addDevice(newDevice);
+
+    const transformedData = {
+      ...newDeviceData,
+      device_status: newDeviceData.device_status.toString()
+    }
+
+    iotDeviceService.addDevice(transformedData);
     return c.json(newDevice, 201);
   } catch (error) {
     console.error('Error creating device:', error);

@@ -5,6 +5,7 @@ import Enhetsdetaljer from './components/Enhetsdetaljer';
 import Layout from './components/Layout';
 import IoTenheter from './components/IoTenheter';
 import Profile from './components/Profile'; // Importer Profile-komponenten
+import IotEnheterPage from './pages/IotEnheterPage';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -66,11 +67,7 @@ function App() {
           element={
             isAuthenticated ? (
               <Layout>
-                <IoTenheter 
-                  devices={[]} 
-                  onAddDevice={() => {}}
-                  onDeleteDevice={() => {}} 
-                />
+               <IotEnheterPage />
               </Layout>
             ) : (
               <Navigate to="/" />

@@ -31,9 +31,8 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (onAddDevice) {
-      onAddDevice(formData); // Sørg for at onAddDevice blir kalt
-    }
+    
+    onAddDevice(formData);
     setFormData({
       device_name: '',
       device_status: false,
