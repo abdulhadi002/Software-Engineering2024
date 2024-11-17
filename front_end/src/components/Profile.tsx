@@ -12,7 +12,7 @@ const Profile: React.FC<ProfileProps> = ({ username, password, membership }) => 
   return (
     <div className="profile-container">
       <div className="profile-icon">
-        <FaUserCircle size={80} style={{ color: '#333' }} />
+        <FaUserCircle size={80} style={{ color: '#555' }} />
       </div>
       <div className="profile-header">Profil</div>
       <div className="profile-item">
@@ -25,7 +25,7 @@ const Profile: React.FC<ProfileProps> = ({ username, password, membership }) => 
       </div>
       <div className="profile-item">
         <span className="profile-label">Medlemskap:</span>
-        <div className="profile-value">{membership || 'Gratis'}</div>
+        <div className="profile-value">{membership}</div>
       </div>
     </div>
   );
