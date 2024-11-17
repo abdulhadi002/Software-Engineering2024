@@ -31,7 +31,10 @@ app.put('/IotEnheter/:id', iotDeviceController.updateDevice);
 app.delete('/IotEnheter/:id', iotDeviceController.deleteDevice);
 
 app.get('/users', userController.getAllUsers);
+app.get('/users/:username', userController.getUserByUsername);
 app.post('/users', userController.createUser);
+
+
 
 
 const port = 6969;

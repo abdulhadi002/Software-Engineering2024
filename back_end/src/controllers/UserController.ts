@@ -6,12 +6,29 @@ import { Context } from 'hono';
 export const getAllUsers = (c: Context) => {
   try {
     const stmt = db.prepare('SELECT * FROM users');
-    const rows = stmt.all() as { id: string; username: string; password: string }[];
+    const rows = stmt.all() as { id: string; username: string; password: string; image?: string; membership?: string }[];
     const users = rows.map(mapUserToRow);
     return c.json(users);
   } catch (error) {
     console.error('Error fetching users:', error);
     return c.json({ error: 'Internal Server Error. Unable to fetch users.' }, 500);
+  }
+};
+
+export const getUserByUsername = (c: Context) => {
+  try {
+    const username = c.req.param('username');
+    const stmt = db.prepare('SELECT * FROM users WHERE username = ?');
+    const user = stmt.get(username) as User | undefined;
+
+    if (user) {
+      return c.json(user, 200);
+    } else {
+      return c.json({ error: 'User not found' }, 404);
+    }
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return c.json({ error: 'Internal Server Error. Unable to fetch user.' }, 500);
   }
 };
 
