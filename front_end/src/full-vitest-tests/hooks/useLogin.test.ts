@@ -1,5 +1,5 @@
-
 import { renderHook } from '@testing-library/react';
+import { expect, vi } from 'vitest';
 import useLogin from '../../hooks/useLogin';
 
 describe('useLogin Hook', () => {
@@ -11,8 +11,11 @@ describe('useLogin Hook', () => {
       useLogin(mockCheckUserCredentials, mockRegisterUser)
     );
 
-    expect(result.current).toBeDefined();
-    expect(result.current.login).toBeInstanceOf(Function);
-    expect(result.current.register).toBeInstanceOf(Function);
+    expect(result.current.credentials).toEqual({ username: '', password: '' });
+    expect(result.current.handleChange).toBeInstanceOf(Function);
+    expect(result.current.handleSubmit).toBeInstanceOf(Function);
+    expect(result.current.isRegistering).toBe(false);
+    expect(result.current.setIsRegistering).toBeInstanceOf(Function);
+    expect(result.current.message).toBe('');
   });
 });
