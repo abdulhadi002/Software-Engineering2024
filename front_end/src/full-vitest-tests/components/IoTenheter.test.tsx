@@ -1,5 +1,6 @@
-import { render } from '@testing-library/react';
-import { expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 import IoTenheter from '../../components/IoTenheter';
 
 describe('IoTenheter Component', () => {
@@ -28,7 +29,7 @@ describe('IoTenheter Component', () => {
   const mockOnDeleteDevice = vi.fn();
 
   it('renders correctly with props', () => {
-    const { getByText } = render(
+    render(
       <IoTenheter
         devices={mockDevices}
         onAddDevice={mockOnAddDevice}
@@ -36,12 +37,12 @@ describe('IoTenheter Component', () => {
       />
     );
 
-    expect(getByText('Test Device 1')).toBeInTheDocument();
-    expect(getByText('Test Device 2')).toBeInTheDocument();
+    expect(screen.getByText('Test Device 1')).toBeInTheDocument();
+    expect(screen.getByText('Test Device 2')).toBeInTheDocument();
   });
 
-  it('calls onAddDevice when adding a device', () => {
-    const { getByRole } = render(
+  it('calls onAddDevice when adding a device', async () => {
+    render(
       <IoTenheter
         devices={mockDevices}
         onAddDevice={mockOnAddDevice}
@@ -49,14 +50,14 @@ describe('IoTenheter Component', () => {
       />
     );
 
-    const addButton = getByRole('button', { name: /Add Device/i });
-    addButton.click();
+    const addButton = screen.getByRole('button', { name: /Add Device/i });
+    await userEvent.click(addButton);
 
-    expect(mockOnAddDevice).toHaveBeenCalled();
+    expect(mockOnAddDevice).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onDeleteDevice when deleting a device', () => {
-    const { getByRole } = render(
+  it('calls onDeleteDevice when deleting a device', async () => {
+    render(
       <IoTenheter
         devices={mockDevices}
         onAddDevice={mockOnAddDevice}
@@ -64,9 +65,9 @@ describe('IoTenheter Component', () => {
       />
     );
 
-    const deleteButton = getByRole('button', { name: /Delete Device/i });
-    deleteButton.click();
+    const deleteButton = screen.getByRole('button', { name: /Delete Test Device 1/i });
+    await userEvent.click(deleteButton);
 
-    expect(mockOnDeleteDevice).toHaveBeenCalled();
+    expect(mockOnDeleteDevice).toHaveBeenCalledWith(1);
   });
 });

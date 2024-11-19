@@ -1,22 +1,24 @@
-import { render } from '@testing-library/react';
-import { expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { describe, it, expect, vi } from 'vitest';
 import Nav from '../../components/Nav';
 
 describe('Nav Component', () => {
   const mockOnLogout = vi.fn();
 
   it('renders correctly', () => {
-    const { getByRole } = render(<Nav onLogout={mockOnLogout} />);
+    render(<Nav onLogout={mockOnLogout} />);
 
-    expect(getByRole('button', { name: /Logout/i })).toBeInTheDocument();
+    const logoutButton = screen.getByRole('button', { name: /Logout/i });
+    expect(logoutButton).toBeInTheDocument();
   });
 
-  it('calls onLogout when logout button is clicked', () => {
-    const { getByRole } = render(<Nav onLogout={mockOnLogout} />);
+  it('calls onLogout when the logout button is clicked', async () => {
+    render(<Nav onLogout={mockOnLogout} />);
 
-    const logoutButton = getByRole('button', { name: /Logout/i });
-    logoutButton.click();
+    const logoutButton = screen.getByRole('button', { name: /Logout/i });
+    await userEvent.click(logoutButton);
 
-    expect(mockOnLogout).toHaveBeenCalled();
+    expect(mockOnLogout).toHaveBeenCalledTimes(1);
   });
 });
