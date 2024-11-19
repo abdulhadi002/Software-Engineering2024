@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import '../../../front_end/src/styles/Profile.css';
-import { FaUserCircle } from 'react-icons/fa';
+// import { FaUserCircle } from 'react-icons/fa';
 
 interface ProfileProps {
   username: string;
@@ -45,7 +45,7 @@ const Profile: React.FC = () => {
   return (
     <div className="profile-container">
       <div className="profile-icon">
-        <FaUserCircle size={80} style={{ color: '#555' }} />
+        {/* <FaUserCircle size={80} style={{ color: '#555' }} /> */}
       </div>
       <div className="profile-header">Profil</div>
       <div className="profile-item">

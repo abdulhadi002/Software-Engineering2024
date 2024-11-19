@@ -11,6 +11,9 @@
     "test": "concurrently \"pnpm run test:frontend\" \"pnpm run test:backend\""
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/node": "^22.9.0",
