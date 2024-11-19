@@ -9,6 +9,7 @@ import {
   deleteDevice,
 } from '../controllers/iotDeviceController';
 import { Context } from 'hono';
+import { IotDevice } from '../models/IotDevice';
 
 vi.mock('../service/iotDeviceService', () => ({
   fetchDevicesByUserId: vi.fn(),
@@ -39,7 +40,17 @@ describe('IoT Device Controller', () => {
 
   describe('getAllDevices', () => {
     it('should return devices for authorized user', () => {
-      const mockDevices = [{ id: 1, name: 'Device 1' }];
+      const mockDevices: IotDevice[] = [
+        {
+          id: 1,
+          device_name: 'Device 1',
+          device_status: true,
+          device_version: 'v1.0',
+          device_description: 'Test device',
+          device_image: 'image.jpg',
+          user_id: 123,
+        },
+      ];
       vi.mocked(getCookie).mockReturnValueOnce('123');
       vi.mocked(iotDeviceService.fetchDevicesByUserId).mockReturnValueOnce(mockDevices);
 
@@ -51,7 +62,7 @@ describe('IoT Device Controller', () => {
     });
 
     it('should return 401 for unauthorized user', () => {
-      vi.mocked(getCookie).mockReturnValueOnce(null);
+      vi.mocked(getCookie).mockReturnValueOnce(undefined);
 
       getAllDevices(mockContext);
 
@@ -61,7 +72,15 @@ describe('IoT Device Controller', () => {
 
   describe('getDeviceById', () => {
     it('should return a device for authorized user', () => {
-      const mockDevice = { id: 1, name: 'Device 1' };
+      const mockDevice: IotDevice = {
+        id: 1,
+        device_name: 'Device 1',
+        device_status: true,
+        device_version: 'v1.0',
+        device_description: 'Test device',
+        device_image: 'image.jpg',
+        user_id: 123,
+      };
       vi.mocked(getCookie).mockReturnValueOnce('123');
       vi.mocked(mockContext.req.param).mockReturnValueOnce('1');
       vi.mocked(iotDeviceService.fetchDeviceByIdAndUserId).mockReturnValueOnce(mockDevice);
@@ -76,7 +95,7 @@ describe('IoT Device Controller', () => {
     it('should return 404 if device is not found', () => {
       vi.mocked(getCookie).mockReturnValueOnce('123');
       vi.mocked(mockContext.req.param).mockReturnValueOnce('1');
-      vi.mocked(iotDeviceService.fetchDeviceByIdAndUserId).mockReturnValueOnce(null);
+      vi.mocked(iotDeviceService.fetchDeviceByIdAndUserId).mockReturnValueOnce(undefined);
 
       getDeviceById(mockContext);
 
@@ -84,7 +103,7 @@ describe('IoT Device Controller', () => {
     });
 
     it('should return 401 for unauthorized user', () => {
-      vi.mocked(getCookie).mockReturnValueOnce(null);
+      vi.mocked(getCookie).mockReturnValueOnce(undefined);
 
       getDeviceById(mockContext);
 
@@ -94,7 +113,13 @@ describe('IoT Device Controller', () => {
 
   describe('createDevice', () => {
     it('should create a device for authorized user', async () => {
-      const mockDevice = { name: 'New Device', device_status: 1 };
+      const mockDevice = {
+        device_name: 'New Device',
+        device_status: true,
+        device_version: 'v1.0',
+        device_description: 'Test device',
+        device_image: 'image.jpg',
+      };
       vi.mocked(getCookie).mockReturnValueOnce('123');
       vi.mocked(mockContext.req.json).mockResolvedValueOnce(mockDevice);
 
@@ -103,13 +128,16 @@ describe('IoT Device Controller', () => {
       expect(getCookie).toHaveBeenCalledWith(mockContext, 'user_id');
       expect(iotDeviceService.addDevice).toHaveBeenCalledWith({
         ...mockDevice,
-        device_status: '1',
+        device_status: 'true',
       });
-      expect(mockContext.json).toHaveBeenCalledWith({ ...mockDevice, user_id: '123' }, 201);
+      expect(mockContext.json).toHaveBeenCalledWith(
+        { ...mockDevice, user_id: '123' },
+        201
+      );
     });
 
     it('should return 401 for unauthorized user', async () => {
-      vi.mocked(getCookie).mockReturnValueOnce(null);
+      vi.mocked(getCookie).mockReturnValueOnce(undefined);
 
       await createDevice(mockContext);
 
@@ -119,7 +147,7 @@ describe('IoT Device Controller', () => {
 
   describe('updateDevice', () => {
     it('should update a device for authorized user', async () => {
-      const mockUpdate = { name: 'Updated Device' };
+      const mockUpdate = { device_name: 'Updated Device' };
       vi.mocked(getCookie).mockReturnValueOnce('123');
       vi.mocked(mockContext.req.param).mockReturnValueOnce('1');
       vi.mocked(mockContext.req.json).mockResolvedValueOnce(mockUpdate);
@@ -139,7 +167,10 @@ describe('IoT Device Controller', () => {
 
       await updateDevice(mockContext);
 
-      expect(mockContext.json).toHaveBeenCalledWith({ error: 'Device not found or unauthorized' }, 404);
+      expect(mockContext.json).toHaveBeenCalledWith(
+        { error: 'Device not found or unauthorized' },
+        404
+      );
     });
   });
 
@@ -161,7 +192,10 @@ describe('IoT Device Controller', () => {
 
       deleteDevice(mockContext);
 
-      expect(mockContext.json).toHaveBeenCalledWith({ error: 'Device not found or unauthorized' }, 404);
+      expect(mockContext.json).toHaveBeenCalledWith(
+        { error: 'Device not found or unauthorized' },
+        404
+      );
     });
   });
 });

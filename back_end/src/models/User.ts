@@ -1,7 +1,9 @@
 export type User = {
-    id: number;
-    username: string;
-    password: string;
+  id: number; 
+  username: string; 
+  password: string; 
+  image?: string; 
+  membership?: string
   }
   
   export type UserWithoutPassword = Omit<User, 'password'>;

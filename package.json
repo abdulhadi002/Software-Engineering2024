@@ -4,7 +4,11 @@
   "scripts": {
     "frontend": "pnpm --filter front_end run dev",
     "backend": "pnpm --filter back_end run dev",
-    "dev": "concurrently \"pnpm run frontend\" \"pnpm run backend\""
+    "dev": "concurrently \"pnpm run frontend\" \"pnpm run backend\"",
+
+    "test:frontend": "pnpm --filter front_end run test",
+    "test:backend": "pnpm --filter back_end run test",
+    "test": "concurrently \"pnpm run test:frontend\" \"pnpm run test:backend\""
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

@@ -2,7 +2,9 @@
   "name": "back_end",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "db:setup": "tsx src/db/index.ts"
+    "db:setup": "tsx src/db/index.ts",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "@hono/node-server": "^1.13.7",

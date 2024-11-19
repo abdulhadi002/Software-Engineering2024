@@ -18,6 +18,7 @@ describe('Auth Controller', () => {
       },
       json: vi.fn(),
       set: vi.fn(),
+      header: vi.fn(),
     } as unknown as Context;
 
     vi.clearAllMocks();
@@ -41,9 +42,10 @@ describe('Auth Controller', () => {
 
       expect(authService.authenticateUser).toHaveBeenCalledWith('testuser', 'password123');
       expect(mockContext.json).toHaveBeenCalledWith({ message: 'Innlogging vellykket' });
-      expect(mockContext.set).toHaveBeenCalledWith(
-        'Set-Cookie',
-        expect.stringContaining('user_id=1')
+      expect(mockContext.header).toHaveBeenCalledWith(
+        'set-cookie',
+        expect.stringContaining('user_id=1'),
+        { append: true }
       );
     });
 
@@ -85,9 +87,10 @@ describe('Auth Controller', () => {
 
       expect(authService.registerUser).toHaveBeenCalledWith('newuser', 'password123');
       expect(mockContext.json).toHaveBeenCalledWith({ message: 'Bruker registrert' }, 201);
-      expect(mockContext.set).toHaveBeenCalledWith(
-        'Set-Cookie',
-        expect.stringContaining('user_id=1')
+      expect(mockContext.header).toHaveBeenCalledWith(
+        'set-cookie',
+        expect.stringContaining('user_id=1'),
+        { append: true }
       );
     });
 
