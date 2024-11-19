@@ -5,10 +5,9 @@
     "frontend": "pnpm --filter front_end run dev",
     "backend": "pnpm --filter back_end run dev",
     "dev": "concurrently \"pnpm run frontend\" \"pnpm run backend\"",
-
     "test:frontend": "pnpm --filter front_end run test",
     "test:backend": "pnpm --filter back_end run test",
-    "test": "concurrently \"pnpm run test:frontend\" \"pnpm run test:backend\""
+    "test": "concurrently  \"pnpm run test:backend\" \"pnpm run test:frontend\""
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",
@@ -29,6 +28,7 @@
     "express": "^4.21.1",
     "fs": "^0.0.1-security",
     "hono": "^4.6.6",
+    "jsdom": "^25.0.1",
     "pnpm": "^9.12.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

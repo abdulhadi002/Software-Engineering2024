@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import IoTenheter from '../../components/IoTenheter';
 
 describe('IoTenheter Component', () => {
@@ -27,6 +27,10 @@ describe('IoTenheter Component', () => {
 
   const mockOnAddDevice = vi.fn();
   const mockOnDeleteDevice = vi.fn();
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('renders correctly with props', () => {
     render(
