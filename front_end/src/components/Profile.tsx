@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
+import Layout from './Layout';
 import '../../../front_end/src/styles/Profile.css';
 
 interface ProfileProps {
@@ -11,7 +12,7 @@ interface ProfileProps {
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<ProfileProps | null>(null);
   const loggedInUsername = localStorage.getItem('username') || 'admin';
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -34,27 +35,33 @@ const Profile: React.FC = () => {
   }, [loggedInUsername]);
 
   if (!profile) {
-    return <div>Loading...</div>;
+    return (
+      <Layout>
+        <div>Loading...</div>
+      </Layout>
+    );
   }
 
   return (
-    <div className="profile-container">
-      <div className="profile-icon"></div>
-      <div className="profile-header">Profil</div>
-      <div className="profile-item">
-        <span className="profile-label">Brukernavn:</span>
-        <div className="profile-value">{profile.username}</div>
+    <Layout>
+      <div className="profile-container">
+        <div className="profile-icon"></div>
+        <div className="profile-header">Profil</div>
+        <div className="profile-item">
+          <span className="profile-label">Brukernavn:</span>
+          <div className="profile-value">{profile.username}</div>
+        </div>
+        <div className="profile-item">
+          <span className="profile-label">Passord:</span>
+          <div className="profile-value">{profile.password}</div>
+        </div>
+        <div className="profile-item">
+          <span className="profile-label">Medlemskap:</span>
+          <div className="profile-value">{profile.membership || "Gratis"}</div>
+        </div>
+        <button className="back-button" onClick={() => navigate(-1)}>Tilbake</button>
       </div>
-      <div className="profile-item">
-        <span className="profile-label">Passord:</span>
-        <div className="profile-value">{profile.password}</div>
-      </div>
-      <div className="profile-item">
-        <span className="profile-label">Medlemskap:</span>
-        <div className="profile-value">{profile.membership || "Gratis"}</div>
-      </div>
-      <button className="back-button" onClick={() => navigate(-1)}>Tilbake</button> 
-    </div>
+    </Layout>
   );
 };
 

@@ -52,11 +52,17 @@
 }
 
 .logout-button {
-    margin-left: auto;
-    padding: 5px 20px;
+    background-color: #dfdfdf;
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 10px 15px;
     border-radius: 5px;
-
-}
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
 
 .logout-button:hover {
     background-color: #ddd;

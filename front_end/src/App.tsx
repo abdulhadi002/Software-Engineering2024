@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      // Simulerer henting av data fra en API eller annen kilde
+
       const fetchUserData = async () => {
         try {
           const response = await fetch('http://localhost:6969/profile', {
@@ -75,14 +75,27 @@ function App() {
           }
         />
         <Route
+  path="/enhetsdetaljer/:deviceId"
+  element={
+    isAuthenticated ? (
+      <Layout>
+        <Enhetsdetaljer/>
+      </Layout>
+    ) : (
+      <Navigate to="/" />
+    )
+  }
+/>
+
+        <Route
           path="/enhetsdetaljer/:deviceId"
           element={
             isAuthenticated ? (
               <Layout>
                 <Enhetsdetaljer 
                   deviceData={{
-                    id: '', // Legg til korrekt id
-                    user_id: 1, // Sett korrekt bruker-ID
+                    id: '', 
+                    user_id: 1, 
                     device_name: '',
                     device_status: false,
                     device_version: '',
@@ -90,7 +103,7 @@ function App() {
                     device_image: ''
                   }} 
                   onToggleStatus={() => {
-                    // Implementer funksjonen for å håndtere statusendring
+                
                   }} 
                 />
               </Layout>

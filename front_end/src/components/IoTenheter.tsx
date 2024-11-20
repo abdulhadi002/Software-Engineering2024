@@ -1,6 +1,7 @@
 import React from 'react';
 import { DeviceData } from './Types';
 import '../styles/IoTenheter.css';
+import { useNavigate } from 'react-router-dom';
 
 type IoTenheterProps = {
   devices: DeviceData[];
@@ -9,6 +10,12 @@ type IoTenheterProps = {
 };
 
 const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteDevice }) => {
+  const navigate = useNavigate();
+
+  const handleViewDetails = (deviceId: string) => {
+    navigate(`/enhetsdetaljer/${deviceId}`);
+  };
+
   const [formData, setFormData] = React.useState<Omit<DeviceData, 'id'>>({
     device_name: '',
     device_status: false,
@@ -47,6 +54,7 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
   return (
     <div className="iot-page">
       <div className="enhetsliste-container">
+  
         <form onSubmit={handleSubmit} className="input-container">
           <input
             type="text"
@@ -105,10 +113,15 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
           </button>
         </form>
 
+      
         <div className="enhetsliste">
           {devices.length > 0 ? (
             devices.map((device) => (
-              <div key={device.id} className="enhets-element">
+              <div
+                key={device.id}
+                className="enhets-element"
+                onClick={() => handleViewDetails(device.id)}
+              >
                 <div>
                   <h3>{device.device_name}</h3>
                   <p>Versjon: {device.device_version}</p>
@@ -123,8 +136,11 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
                   )}
                 </div>
                 <button
-                  onClick={() => onDeleteDevice(device.id)}
                   className="delete-button"
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    onDeleteDevice(device.id);
+                  }}
                 >
                   Slett
                 </button>
