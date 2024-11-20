@@ -1,5 +1,6 @@
 import React from 'react';
 import { DeviceData } from './Types';
+import '../styles/IoTenheter.css';
 
 type IoTenheterProps = {
   devices: DeviceData[];
@@ -31,7 +32,7 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     onAddDevice(formData);
     setFormData({
       device_name: '',
@@ -44,66 +45,96 @@ const IoTenheter: React.FC<IoTenheterProps> = ({ devices, onAddDevice, onDeleteD
   };
 
   return (
-    <div className="enhetsliste">
-      <h2>Enhetsliste</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="device_name"
-          placeholder="Device Name"
-          value={formData.device_name}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="device_version"
-          placeholder="Device Version"
-          value={formData.device_version}
-          onChange={handleChange}
-          required
-        />
-        <textarea
-          name="device_description"
-          placeholder="Device Description"
-          value={formData.device_description}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="file"
-          name="device_image"
-          onChange={(e) => {
-            if (e.target.files && e.target.files[0]) {
-              setFormData({
-                ...formData,
-                device_image: e.target.files[0].name,
-              });
-            }
-          }}
-          required
-        />
-        <label>
-          Status:
+    <div className="iot-page">
+      <div className="enhetsliste-container">
+        <form onSubmit={handleSubmit} className="input-container">
           <input
-            type="checkbox"
-            name="device_status"
-            checked={formData.device_status}
+            type="text"
+            name="device_name"
+            placeholder="Device Name"
+            value={formData.device_name}
             onChange={handleChange}
+            className="input-field"
+            required
           />
-        </label>
-        <button type="submit">Legg til</button>
-      </form>
-      {devices && devices.length > 0 ? (
-        devices.map((device) => (
-          <div key={device.id}>
-            <span>{device.device_name}</span>
-            <button onClick={() => onDeleteDevice(device.id)}>Slett</button>
+          <input
+            type="text"
+            name="device_version"
+            placeholder="Device Version"
+            value={formData.device_version}
+            onChange={handleChange}
+            className="input-field"
+            required
+          />
+          <textarea
+            name="device_description"
+            placeholder="Device Description"
+            value={formData.device_description}
+            onChange={handleChange}
+            className="input-field"
+            required
+          />
+          <input
+            type="file"
+            name="device_image"
+            onChange={(e) => {
+              if (e.target.files && e.target.files[0]) {
+                setFormData({
+                  ...formData,
+                  device_image: e.target.files[0].name,
+                });
+              }
+            }}
+            className="input-field"
+            required
+          />
+          <div className="status-container">
+            <label className="status-label">
+              Status:
+              <input
+                type="checkbox"
+                name="device_status"
+                checked={formData.device_status}
+                onChange={handleChange}
+                className="status-checkbox"
+              />
+            </label>
           </div>
-        ))
-      ) : (
-        <p>No devices available.</p>
-      )}
+          <button type="submit" className="add-button">
+            Legg til
+          </button>
+        </form>
+
+        <div className="enhetsliste">
+          {devices.length > 0 ? (
+            devices.map((device) => (
+              <div key={device.id} className="enhets-element">
+                <div>
+                  <h3>{device.device_name}</h3>
+                  <p>Versjon: {device.device_version}</p>
+                  <p>Beskrivelse: {device.device_description}</p>
+                  <p>Status: {device.device_status ? 'Aktiv' : 'Inaktiv'}</p>
+                  {device.device_image && (
+                    <img
+                      src={`/uploads/${device.device_image}`}
+                      alt={device.device_name}
+                      style={{ width: '100px', height: 'auto', marginTop: '10px' }}
+                    />
+                  )}
+                </div>
+                <button
+                  onClick={() => onDeleteDevice(device.id)}
+                  className="delete-button"
+                >
+                  Slett
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>No devices available.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

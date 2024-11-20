@@ -11,14 +11,17 @@ const useDevices = () => {
     const getDevices = async () => {
       try {
         const data = await fetchDevices();
+        console.log('Fetched devices:', data);
         setDevices(data || []);
       } catch (error) {
+        console.error('Error fetching devices:', error);
         setError('Failed to load devices');
         setDevices([]);
       } finally {
         setLoading(false);
       }
     };
+    
 
     getDevices();
   }, []);

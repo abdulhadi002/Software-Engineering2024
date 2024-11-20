@@ -56,24 +56,25 @@ body {
     font-size: 20px;
 }
 
-.login-section {
+.login-page .login-section {
     width: 300px;
     background-color: rgba(217, 217, 217, 1);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     margin-top: 20px;
-}
+  }
+  
+  .login-page .input-container {
+    margin-bottom: 15px;
+    text-align: left;
+  }
 
 h2 {
     color: #e0e0e0;
     font-weight: lighter;
 }
 
-.input-container {
-    margin-bottom: 15px;
-    text-align: left;
-}
 
 label {
     display: block;

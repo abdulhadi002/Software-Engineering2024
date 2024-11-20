@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import '../../../front_end/src/styles/Profile.css';
-// import { FaUserCircle } from 'react-icons/fa';
 
 interface ProfileProps {
   username: string;
@@ -11,17 +11,14 @@ interface ProfileProps {
 const Profile: React.FC = () => {
   const [profile, setProfile] = useState<ProfileProps | null>(null);
   const loggedInUsername = localStorage.getItem('username') || 'admin';
-
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchProfile = async () => {
-      console.log('Logged-in username:', loggedInUsername); // Log for debugging
-  
       if (!loggedInUsername) {
         console.error('No logged-in user found');
         return;
       }
-  
       try {
         const response = await fetch(`http://localhost:6969/users/${loggedInUsername}`);
         if (!response.ok) {
@@ -33,10 +30,8 @@ const Profile: React.FC = () => {
         console.error('Error fetching profile:', error);
       }
     };
-  
     fetchProfile();
   }, [loggedInUsername]);
-  
 
   if (!profile) {
     return <div>Loading...</div>;
@@ -44,9 +39,7 @@ const Profile: React.FC = () => {
 
   return (
     <div className="profile-container">
-      <div className="profile-icon">
-        {/* <FaUserCircle size={80} style={{ color: '#555' }} /> */}
-      </div>
+      <div className="profile-icon"></div>
       <div className="profile-header">Profil</div>
       <div className="profile-item">
         <span className="profile-label">Brukernavn:</span>
@@ -60,6 +53,7 @@ const Profile: React.FC = () => {
         <span className="profile-label">Medlemskap:</span>
         <div className="profile-value">{profile.membership || "Gratis"}</div>
       </div>
+      <button className="back-button" onClick={() => navigate(-1)}>Tilbake</button> 
     </div>
   );
 };
