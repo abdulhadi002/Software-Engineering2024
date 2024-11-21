@@ -8,9 +8,8 @@ Denne IoT-administrasjonsplattformen er en webapplikasjon som lar brukere legge 
 # Installasjons instrukser
 1. Innstaller nodejs fra https://nodejs.org/en
 2. npm install i rotmappen (for å installere dependencies)
-3. npm install i back_end mappen for å installere dependencies
-4. npm run dev i rot mappen
-5. åpne localhost linken som dukker opp i terminal utskriften http://localhost:5173/
+3. npm run dev i rot mappen
+4. åpne localhost linken som dukker opp i terminal utskriften http://localhost:5173/
 
 # Tester
 1. npm run test i rotmappen
