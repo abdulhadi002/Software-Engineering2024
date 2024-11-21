@@ -1,12 +1,16 @@
 {
   "name": "your-project",
   "version": "1.0.0",
+  "workspaces": [
+    "front_end",
+    "back_end"
+  ],
   "scripts": {
-    "frontend": "npm --filter front_end run dev",
-    "backend": "npm --filter back_end run dev",
+    "frontend": "npm --workspace front_end run dev",
+    "backend": "npm --workspace back_end run dev",
     "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
-    "test:frontend": "npm --filter front_end run test",
-    "test:backend": "npm --filter back_end run test",
+    "test:frontend": "npm --workspace front_end run test",
+    "test:backend": "npm --workspace back_end run test",
     "test": "concurrently  \"npm run test:backend\" \"npm run test:frontend\""
   },
   "devDependencies": {
